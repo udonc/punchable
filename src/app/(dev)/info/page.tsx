@@ -2,11 +2,10 @@ import { getIp } from "@/util/ip";
 import type { NextPage } from "next";
 import { headers } from "next/headers";
 
-const header = headers();
-
-const ip = getIp(header);
-
 const page: NextPage = () => {
+	const header = headers();
+	const ip = getIp(header);
+
 	return (
 		<div className="bg-background p-4 grid gap-4">
 			<h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
