@@ -32,7 +32,7 @@ model User {
 /// ユーザーの属性 ((キー, 値) のペア)
 model UserAttribute {
   key    String /// キー
-  value  String /// 値
+  value  String /// 値 (JSON 文字列)
   User   User   @relation(fields: [userId], references: [id]) /// この属性を持つユーザー
   userId String /// この属性を持つユーザーの ID
 
