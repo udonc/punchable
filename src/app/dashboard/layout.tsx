@@ -21,7 +21,7 @@ const Layout: Layout = ({ children }) => {
 			<div className="flex min-h-screen w-full flex-col bg-muted/40">
 				<aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
 					<nav className="flex flex-col items-center gap-4 p-2">
-						<h1 className="aspect-square w-full grid place-items-center text-yellow-200">
+						<h1 className="aspect-square w-full grid place-items-center text-yellow-200 border rounded-lg">
 							<Link href="/dashboard">
 								<Origami />
 							</Link>
@@ -77,11 +77,12 @@ const Layout: Layout = ({ children }) => {
 					<nav className="flex flex-col items-center gap-4 p-2">
 						<SidebarButton
 							trigger={
-								<Link href="/dashboard">
+								<Link href="/dashboard/users">
 									<BookUser />
 								</Link>
 							}
 							content="ユーザー管理"
+							activePath="/dashboard/users"
 						/>
 					</nav>
 					<div className="h-full">{/* Spacer */}</div>

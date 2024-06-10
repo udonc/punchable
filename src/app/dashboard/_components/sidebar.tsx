@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
 	Tooltip,
@@ -5,6 +7,7 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 import type { FC, ReactNode } from "react";
 
 type SidebarButtonProps = {
@@ -16,16 +19,18 @@ type SidebarButtonProps = {
 	content: ReactNode;
 	/** `aria-label` に使用されます。 */
 	label?: string;
-	/** ボタンのアクティブ状態を指定します。 */
-	active?: boolean;
+	/** ボタンがアクティブかどうかを判定する際に使用される Pathname */
+	activePath?: string;
 };
 
 export const SidebarButton: FC<SidebarButtonProps> = ({
 	trigger,
 	content,
-	active,
 	label,
+	activePath,
 }) => {
+	const pathname = usePathname();
+
 	return (
 		<Tooltip>
 			<TooltipTrigger asChild>
@@ -33,7 +38,7 @@ export const SidebarButton: FC<SidebarButtonProps> = ({
 					variant="ghost"
 					size="icon"
 					asChild
-					className={cn(active && "rounded-lg bg-muted")}
+					className={cn(activePath === pathname && "rounded-lg bg-muted")}
 					aria-label={label || (typeof content === "string" ? content : "")}
 				>
 					{trigger}
