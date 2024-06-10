@@ -6,6 +6,10 @@ const jiti = createJiti(fileURLToPath(import.meta.url));
 jiti("./src/env");
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+	experimental: {
+		typedRoutes: true,
+	},
+};
 
 export default nextConfig;
