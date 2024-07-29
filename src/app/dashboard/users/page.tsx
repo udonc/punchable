@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
 import { consoleQueryCount } from "@/server/actions";
 import { db } from "@/server/db";
-import { PlusCircle } from "lucide-react";
 import type { Metadata, NextPage } from "next";
+import { DataTable } from "./_components/user-data-table";
+import { columns } from "./columns";
 
 export const metadata: Metadata = {
 	title: "ユーザー管理 - Punchable",
@@ -12,15 +12,19 @@ const Page: NextPage = async () => {
 	consoleQueryCount();
 	const users = await db.user.findMany();
 	const userCount = users.length;
+
 	return (
 		<div className="p-4">
-			<div>
-				<Button variant="default">
-					<PlusCircle className="mr-2 w-4 h-4" />
-					新しいユーザーを追加
-				</Button>
+			<hgroup className="grid gap-2">
+				<h1 className="text-lg font-bold">ユーザー管理</h1>
+				<p className="text-sm text-muted-foreground">
+					ユーザーの追加・削除・各種設定の変更などが行えます。
+				</p>
+			</hgroup>
+			<DataTable columns={columns} data={users}></DataTable>
+			<div className="py-2">
+				<small className="text-muted-foreground">ユーザー数: {userCount}</small>
 			</div>
-			<div>{userCount}</div>
 		</div>
 	);
 };

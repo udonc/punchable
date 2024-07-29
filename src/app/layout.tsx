@@ -1,4 +1,5 @@
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Noto_Sans_JP as FontSans } from "next/font/google";
@@ -30,6 +31,7 @@ export default function RootLayout({
 					disableTransitionOnChange
 				>
 					{children}
+					<Toaster richColors />
 				</ThemeProvider>
 			</body>
 		</html>
