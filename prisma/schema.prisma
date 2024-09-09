@@ -16,37 +16,31 @@ datasource db {
 
 /// ユーザー
 model User {
-  id                 String          @id @default(cuid()) /// ID
-  createdAt          DateTime        @default(now()) /// 作成日時
-  updatedAt          DateTime        @updatedAt /// 更新日時
-  isArchived         Boolean         @default(false) /// アーカイブされたかどうか
+  id                 String        @id @default(cuid()) /// ID
+  createdAt          DateTime      @default(now()) /// 作成日時
+  updatedAt          DateTime      @updatedAt /// 更新日時
+  isArchived         Boolean       @default(false) /// アーカイブされたかどうか
   name               String /// Human-readable なユーザーの名前 (フルネーム, または名字のみなど、任意)
-  slug               String          @unique /// URL に使われるユーザーの名前
-  IpAddress          IpAddress[] /// ユーザーが使用する IP アドレス
+  slug               String        @unique /// URL に使われるユーザーの名前
+  ip                 String        @unique /// ユーザーが使用する IP アドレス
   Attenddance        Attenddance[] /// ユーザーの出勤情報
-  ReviewAsReviewer   Review[]        @relation(name: "reviewer") /// このユーザーがレビュアーとして関連付けられたレビュー
-  ReviewAsReviewee   Review[]        @relation(name: "reviewee") /// このユーザーがレビュイーとして関連付けられたレビュー
-  UserOrderAttribute UserAttribute[]
+  ReviewAsReviewer   Review[]      @relation(name: "reviewer") /// このユーザーがレビュアーとして関連付けられたレビュー
+  ReviewAsReviewee   Review[]      @relation(name: "reviewee") /// このユーザーがレビュイーとして関連付けられたレビュー
+  UserOrderAttribute UserOrder[]
 }
 
-/// ユーザーの属性 ((キー, 値) のペア)
-model UserAttribute {
-  key    String /// キー
-  value  String /// 値 (JSON 文字列)
-  User   User   @relation(fields: [userId], references: [id]) /// この属性を持つユーザー
-  userId String /// この属性を持つユーザーの ID
-
-  @@id([key, userId]) /// 複合キー (key, userId)
-}
-
-/// IP アドレス
-model IpAddress {
+/// ユーザーの並び順
+model UserOrder {
   id        String   @id @default(cuid()) /// ID
   createdAt DateTime @default(now()) /// 作成日時
   updatedAt DateTime @updatedAt /// 更新日時
-  address   String   @unique /// IP アドレス
-  User      User?    @relation(fields: [userId], references: [id]) /// この IP アドレスを使用しているユーザー
-  userId    String? /// この IP アドレスを使用しているユーザーの ID
+  key       String /// 並び替えのキー (打刻画面: "timecard", レビュー画面: "review")
+  user      User     @relation(fields: [userId], references: [id]) /// この並び順に紐づくユーザー
+  userId    String /// この並び順に紐づくユーザーの ID
+  order     Int /// 並び順
+
+  @@unique([key, userId])
+  @@unique([key, order])
 }
 
 /// レポート
