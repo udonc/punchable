@@ -7,16 +7,13 @@ const page: NextPage = async () => {
 	const header = headers();
 	const ip = getIp(header) || "";
 
-	const user = await db.ipAddress
+	const user = await db.user
 		.findUnique({
-			select: {
-				User: true,
-			},
 			where: {
-				address: ip,
+				ip: ip,
 			},
 		})
-		.then((res) => res?.User);
+		.then((res) => res);
 
 	return (
 		<div className="bg-background p-4 grid gap-4">

@@ -28,7 +28,7 @@ export const checkDuplicateIp = async (
 	ip: string,
 ): Promise<ActionResult<{ duplicated: boolean }>> => {
 	try {
-		const found = await db.ipAddress.findUnique({ where: { address: ip } });
+		const found = await db.user.findUnique({ where: { ip: ip } });
 		return success({ duplicated: !!found });
 	} catch (e) {
 		return failure("エラーが発生しました");
@@ -44,14 +44,32 @@ export const createUser = async (data: z.infer<typeof CreateUserInput>) => {
 			data: {
 				name: data.name,
 				slug: data.slug,
-				IpAddress: {
-					create: {
-						address: data.ip,
-					},
-				},
+				ip: data.ip,
 			},
 		});
 		return success(created);
+	} catch (error) {
+		return failure("エラーが発生しました");
+	} finally {
+		revalidatePath("/dashboard/users");
+	}
+};
+
+/** ユーザーの更新 */
+export const updateUser = async (
+	id: string,
+	data: z.infer<typeof CreateUserInput>,
+) => {
+	try {
+		const updated = await db.user.update({
+			where: { id },
+			data: {
+				name: data.name,
+				slug: data.slug,
+				ip: data.ip,
+			},
+		});
+		return success(updated);
 	} catch (error) {
 		return failure("エラーが発生しました");
 	} finally {
