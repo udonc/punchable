@@ -76,3 +76,15 @@ export const updateUser = async (
 		revalidatePath("/dashboard/users");
 	}
 };
+
+/** ユーザーの削除 */
+export const deleteUser = async (id: string) => {
+	try {
+		await db.user.delete({ where: { id } });
+		return success(null);
+	} catch (error) {
+		return failure("エラーが発生しました");
+	} finally {
+		revalidatePath("/dashboard/users");
+	}
+};

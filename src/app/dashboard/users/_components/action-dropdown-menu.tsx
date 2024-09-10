@@ -1,14 +1,4 @@
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -17,11 +7,11 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import { Row } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { useRef, useState } from "react";
 import { User } from "../columns";
+import { UserDeleteDialog } from "./user-delete-dialog";
 import { UserEditDialog } from "./user-edit-dialog";
 
 export const ActionDropDownMenu = ({ row }: { row: Row<User> }) => {
@@ -31,6 +21,7 @@ export const ActionDropDownMenu = ({ row }: { row: Row<User> }) => {
 	const [isDisabled, setIsDisabled] = useState(true);
 
 	const UserEditDialogRef = useRef<{ openDialog: () => void }>(null);
+	const UserDeleteDialogRef = useRef<{ openDialog: () => void }>(null);
 
 	return (
 		<div>
@@ -54,47 +45,13 @@ export const ActionDropDownMenu = ({ row }: { row: Row<User> }) => {
 					</DropdownMenuItem>
 					<DropdownMenuItem
 						className="text-destructive"
-						onClick={() => setIsOpen(true)}
+						onClick={() => UserDeleteDialogRef.current?.openDialog()}
 					>
 						削除
 					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>
-			<AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-				<AlertDialogContent>
-					<AlertDialogHeader>
-						<AlertDialogTitle>
-							ユーザー &quot;{user.name}&quot; を削除しますか？
-						</AlertDialogTitle>
-						<AlertDialogDescription>
-							ユーザーとそれに関連するデータがすべて削除されます。
-							<br />
-							この操作は取り消せません。
-						</AlertDialogDescription>
-						<AlertDialogDescription>
-							削除するには
-							<code className="font-mono mx-1 px-1 bg-background border border-border/50 rounded">
-								{user.slug}
-							</code>
-							と入力してください。
-						</AlertDialogDescription>
-						<Input
-							onInput={(e) =>
-								setIsDisabled(e.currentTarget.value !== user.slug)
-							}
-						/>
-					</AlertDialogHeader>
-					<AlertDialogFooter>
-						<AlertDialogCancel>キャンセル</AlertDialogCancel>
-						<AlertDialogAction
-							disabled={isDisabled}
-							className={buttonVariants({ variant: "destructive" })}
-						>
-							削除
-						</AlertDialogAction>
-					</AlertDialogFooter>
-				</AlertDialogContent>
-			</AlertDialog>
+			<UserDeleteDialog ref={UserDeleteDialogRef} user={user} />
 			<UserEditDialog
 				ref={UserEditDialogRef}
 				id={user.id}
