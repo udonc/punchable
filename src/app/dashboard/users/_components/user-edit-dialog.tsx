@@ -45,8 +45,12 @@ type UserEditDialogProps = {
 	};
 };
 
+export type UserEditDialogHandlers = {
+	openDialog: () => void;
+};
+
 export const UserEditDialog = forwardRef<
-	{ openDialog: () => void },
+	UserEditDialogHandlers,
 	UserEditDialogProps
 >(({ id, oldUser: currentUser }, ref) => {
 	const form = useForm<z.infer<typeof UpdateUserInput>>({

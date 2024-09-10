@@ -11,8 +11,11 @@ import { Row } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { useRef, useState } from "react";
 import { User } from "../columns";
-import { UserDeleteDialog } from "./user-delete-dialog";
-import { UserEditDialog } from "./user-edit-dialog";
+import {
+	UserDeleteDialog,
+	UserDeleteDialogHandlers,
+} from "./user-delete-dialog";
+import { UserEditDialog, UserEditDialogHandlers } from "./user-edit-dialog";
 
 export const ActionDropDownMenu = ({ row }: { row: Row<User> }) => {
 	const user = row.original;
@@ -20,8 +23,8 @@ export const ActionDropDownMenu = ({ row }: { row: Row<User> }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isDisabled, setIsDisabled] = useState(true);
 
-	const UserEditDialogRef = useRef<{ openDialog: () => void }>(null);
-	const UserDeleteDialogRef = useRef<{ openDialog: () => void }>(null);
+	const UserEditDialogRef = useRef<UserEditDialogHandlers>(null);
+	const UserDeleteDialogRef = useRef<UserDeleteDialogHandlers>(null);
 
 	return (
 		<div>

@@ -32,8 +32,12 @@ type UserDeleteDialogProps = {
 	};
 };
 
+export type UserDeleteDialogHandlers = {
+	openDialog: () => void;
+};
+
 export const UserDeleteDialog = forwardRef<
-	{ openDialog: () => void },
+	UserDeleteDialogHandlers,
 	UserDeleteDialogProps
 >(({ user }, ref) => {
 	const [isOpen, setIsOpen] = useState(false);
