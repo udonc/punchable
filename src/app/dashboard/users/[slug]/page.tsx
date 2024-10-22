@@ -1,5 +1,7 @@
+import { Button } from "@/components/ui/button";
 import { db } from "@/server/db";
 import Avatar from "boring-avatars";
+import { PlusCircle } from "lucide-react";
 import { NextPage } from "next";
 import { notFound } from "next/navigation";
 import { UserInfoHead } from "./_components/user-info-head";
@@ -60,7 +62,7 @@ const Page: NextPage<PageProps> = async (props) => {
 						<span className="text-xs text-muted-foreground">
 							{reviewers.length} 人
 						</span>
-						<div className="flex">
+						<div className="flex gap-2">
 							{reviewers.map((reviewer) => {
 								return (
 									<div
@@ -71,6 +73,13 @@ const Page: NextPage<PageProps> = async (props) => {
 									</div>
 								);
 							})}
+							<Button
+								variant="ghost"
+								className="rounded-xl border h-full min-h-16 border-dashed text-muted-foreground flex gap-1 items-center"
+							>
+								<PlusCircle />
+								追加する
+							</Button>
 						</div>
 					</div>
 				</div>
@@ -84,7 +93,7 @@ const Page: NextPage<PageProps> = async (props) => {
 						<span className="text-xs text-muted-foreground">
 							{reviewees.length} 人
 						</span>
-						<div className="flex">
+						<div className="flex gap-2">
 							{reviewees.map((reviewee) => {
 								return (
 									<div
@@ -95,6 +104,13 @@ const Page: NextPage<PageProps> = async (props) => {
 									</div>
 								);
 							})}
+							<Button
+								variant="ghost"
+								className="rounded-xl border h-full min-h-16 border-dashed text-muted-foreground flex gap-1 items-center"
+							>
+								<PlusCircle />
+								追加する
+							</Button>
 						</div>
 					</div>
 				</div>
