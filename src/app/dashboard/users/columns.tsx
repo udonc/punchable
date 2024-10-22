@@ -1,7 +1,9 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import Avatar from "boring-avatars";
+import Link from "next/link";
 import { ActionDropDownMenu } from "./_components/action-dropdown-menu";
 
 export type User = {
@@ -33,6 +35,13 @@ export const columns: ColumnDef<User>[] = [
 	{
 		accessorKey: "name",
 		header: "名前",
+		cell: ({ row }) => (
+			<Button variant="link" className="text-left" asChild>
+				<Link href={`/dashboard/users/${row.original.slug}`}>
+					{row.original.name}
+				</Link>
+			</Button>
+		),
 	},
 	{
 		accessorKey: "slug",
