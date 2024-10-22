@@ -12,10 +12,18 @@ import { MoreHorizontal } from "lucide-react";
 import { useRef, useState } from "react";
 import { User } from "../columns";
 import {
+	UserArchiveDialog,
+	UserArchiveDialogHandlers,
+} from "./user-archive-dialog";
+import {
 	UserDeleteDialog,
 	UserDeleteDialogHandlers,
 } from "./user-delete-dialog";
 import { UserEditDialog, UserEditDialogHandlers } from "./user-edit-dialog";
+import {
+	UserUnarchiveDialog,
+	UserUnarchiveDialogHandlers,
+} from "./user-unarchive-dialog";
 
 export const ActionDropDownMenu = ({ row }: { row: Row<User> }) => {
 	const user = row.original;
@@ -24,6 +32,8 @@ export const ActionDropDownMenu = ({ row }: { row: Row<User> }) => {
 	const [isDisabled, setIsDisabled] = useState(true);
 
 	const UserEditDialogRef = useRef<UserEditDialogHandlers>(null);
+	const UserArchiveDialogRef = useRef<UserArchiveDialogHandlers>(null);
+	const UserUnarchiveDialogRef = useRef<UserUnarchiveDialogHandlers>(null);
 	const UserDeleteDialogRef = useRef<UserDeleteDialogHandlers>(null);
 
 	return (
@@ -43,9 +53,21 @@ export const ActionDropDownMenu = ({ row }: { row: Row<User> }) => {
 					>
 						編集
 					</DropdownMenuItem>
-					<DropdownMenuItem className="text-destructive">
-						アーカイブ
-					</DropdownMenuItem>
+					{user.isArchived ? (
+						<DropdownMenuItem
+							className="text-destructive"
+							onClick={() => UserUnarchiveDialogRef.current?.openDialog()}
+						>
+							アーカイブ解除
+						</DropdownMenuItem>
+					) : (
+						<DropdownMenuItem
+							className="text-destructive"
+							onClick={() => UserArchiveDialogRef.current?.openDialog()}
+						>
+							アーカイブ
+						</DropdownMenuItem>
+					)}
 					<DropdownMenuItem
 						className="text-destructive"
 						onClick={() => UserDeleteDialogRef.current?.openDialog()}
@@ -55,6 +77,8 @@ export const ActionDropDownMenu = ({ row }: { row: Row<User> }) => {
 				</DropdownMenuContent>
 			</DropdownMenu>
 			<UserDeleteDialog ref={UserDeleteDialogRef} user={user} />
+			<UserArchiveDialog ref={UserArchiveDialogRef} user={user} />
+			<UserUnarchiveDialog ref={UserUnarchiveDialogRef} user={user} />
 			<UserEditDialog
 				ref={UserEditDialogRef}
 				id={user.id}

@@ -9,6 +9,7 @@ export type User = {
 	name: string;
 	slug: string;
 	ip: string;
+	isArchived: boolean;
 };
 
 export const columns: ColumnDef<User>[] = [
@@ -18,7 +19,13 @@ export const columns: ColumnDef<User>[] = [
 		cell: ({ row }) => {
 			return (
 				<div aria-label="ユーザーのアバター">
-					<Avatar size={32} name={row.original.slug} variant="beam" />
+					<Avatar
+						size={32}
+						name={row.original.slug}
+						variant="beam"
+						data-archived={row.original.isArchived}
+						className="data-[archived=true]:opacity-50 data-[archived=true]:grayscale "
+					/>
 				</div>
 			);
 		},

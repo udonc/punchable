@@ -18,4 +18,8 @@ export const UpdateUserInput = z.object({
 	ip: z.string().min(1).ip("有効なIPアドレスを入力してください"),
 });
 
+export const ArchiveUserInput = z.object({});
+
+export const UnarchiveUserInput = z.object({});
+
 export const DeleteUserInput = z.object({});

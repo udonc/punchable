@@ -88,3 +88,33 @@ export const deleteUser = async (id: string) => {
 		revalidatePath("/dashboard/users");
 	}
 };
+
+/** ユーザーのアーカイブ */
+export const archiveUser = async (id: string) => {
+	try {
+		const updated = await db.user.update({
+			where: { id },
+			data: { isArchived: true },
+		});
+		return success(updated);
+	} catch (error) {
+		return failure("エラーが発生しました");
+	} finally {
+		revalidatePath("/dashboard/users");
+	}
+};
+
+/** ユーザーのアーカイブ解除 */
+export const unarchiveUser = async (id: string) => {
+	try {
+		const updated = await db.user.update({
+			where: { id },
+			data: { isArchived: false },
+		});
+		return success(updated);
+	} catch (error) {
+		return failure("エラーが発生しました");
+	} finally {
+		revalidatePath("/dashboard/users");
+	}
+};
