@@ -46,6 +46,11 @@ const Page: NextPage<PageProps> = async (props) => {
 				<h2 className="text-xl font-bold">{user.name}</h2>
 				<span className="text-muted-foreground font-mono">{user.slug}</span>
 			</div>
+			{user.isArchived && (
+				<div className="p-4 bg-destructive text-destructive-foreground border-b">
+					このユーザーはアーカイブされています。情報の編集はできません。
+				</div>
+			)}
 			<div className="p-4">
 				<div className="grid gap-4">
 					<h3 className="text-lg font-semibold">
