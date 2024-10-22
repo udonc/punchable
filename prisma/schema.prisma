@@ -69,6 +69,8 @@ model Review {
   reviewerId String /// レビュアーの ID
   reviewee   User   @relation(name: "reviewee", fields: [revieweeId], references: [id]) /// レビュイー
   revieweeId String /// レビュイーの ID
+
+  @@unique([reviewerId, revieweeId])
 }
 
 /// 出勤情報
