@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { db } from "@/server/db";
 import Avatar from "boring-avatars";
-import { PlusCircle } from "lucide-react";
+import { EthernetPort, PlusCircle } from "lucide-react";
 import { NextPage } from "next";
 import { notFound } from "next/navigation";
 import { UserInfoHead } from "./_components/user-info-head";
@@ -47,6 +47,11 @@ const Page: NextPage<PageProps> = async (props) => {
 				/>
 				<h2 className="text-xl font-bold">{user.name}</h2>
 				<span className="text-muted-foreground font-mono">{user.slug}</span>
+				<div className="grow">{/* spacer */}</div>
+				<span className="flex">
+					<EthernetPort />
+					<span className="ml-2 font-mono">{user.ip}</span>
+				</span>
 			</div>
 			{user.isArchived && (
 				<div className="p-4 bg-destructive text-destructive-foreground border-b">
