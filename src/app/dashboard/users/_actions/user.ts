@@ -118,3 +118,81 @@ export const unarchiveUser = async (id: string) => {
 		revalidatePath("/dashboard/users");
 	}
 };
+
+/** ユーザーにレビュアーを追加 */
+export const addReviewer = async (revieweeId: string, reviewerId: string) => {
+	try {
+		const updated = await db.review.create({
+			data: {
+				revieweeId,
+				reviewerId,
+			},
+		});
+		return success(updated);
+	} catch (error) {
+		return failure("エラーが発生しました");
+	} finally {
+		revalidatePath("/dashboard/users");
+	}
+};
+
+/** ユーザーのレビュアーを削除 */
+export const removeReviewer = async (
+	revieweeId: string,
+	reviewerId: string,
+) => {
+	try {
+		await db.review.delete({
+			where: {
+				reviewerId_revieweeId: {
+					revieweeId,
+					reviewerId,
+				},
+			},
+		});
+		return success(null);
+	} catch (error) {
+		return failure("エラーが発生しました");
+	} finally {
+		revalidatePath("/dashboard/users");
+	}
+};
+
+/** ユーザーにレビュイーを追加 */
+export const addReviewee = async (reviewerId: string, revieweeId: string) => {
+	try {
+		const updated = await db.review.create({
+			data: {
+				reviewerId,
+				revieweeId,
+			},
+		});
+		return success(updated);
+	} catch (error) {
+		return failure("エラーが発生しました");
+	} finally {
+		revalidatePath("/dashboard/users");
+	}
+};
+
+/** ユーザーのレビュイーを削除 */
+export const removeReviewee = async (
+	reviewerId: string,
+	revieweeId: string,
+) => {
+	try {
+		await db.review.delete({
+			where: {
+				reviewerId_revieweeId: {
+					revieweeId,
+					reviewerId,
+				},
+			},
+		});
+		return success(null);
+	} catch (error) {
+		return failure("エラーが発生しました");
+	} finally {
+		revalidatePath("/dashboard/users");
+	}
+};
