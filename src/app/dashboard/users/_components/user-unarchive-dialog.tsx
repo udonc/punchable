@@ -60,7 +60,7 @@ export const UserUnarchiveDialog = forwardRef<
 				return;
 			}
 
-			toast.success("ユーザーをアーカイブ解除しました");
+			toast.success("ユーザーのアーカイブ状態を解除しました");
 			setIsOpen(false);
 		});
 	};
