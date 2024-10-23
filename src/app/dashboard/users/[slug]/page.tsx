@@ -4,6 +4,7 @@ import Avatar from "boring-avatars";
 import { EthernetPort, PlusCircle } from "lucide-react";
 import { notFound } from "next/navigation";
 import { AddReviewerButton } from "./_components/add-reviewer-button";
+import { RemoveReviewerButton } from "./_components/remove-reviewer-button";
 import { UserInfoHead } from "./_components/user-info-head";
 
 type PageProps = {
@@ -77,9 +78,13 @@ const Page = async (props: PageProps) => {
 								return (
 									<div
 										key={reviewer.id}
-										className="p-2 bg-background rounded-xl border"
+										className="p-2 bg-background rounded-xl border relative group"
 									>
 										<UserInfoHead user={reviewer} />
+										<RemoveReviewerButton
+											selfId={user.id}
+											reviewerId={reviewer.id}
+										/>
 									</div>
 								);
 							})}
