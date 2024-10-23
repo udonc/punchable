@@ -3,6 +3,7 @@ import { db } from "@/server/db";
 import Avatar from "boring-avatars";
 import { EthernetPort, PlusCircle } from "lucide-react";
 import { notFound } from "next/navigation";
+import { AddReviewerButton } from "./_components/add-reviewer-button";
 import { UserInfoHead } from "./_components/user-info-head";
 
 type PageProps = {
@@ -34,6 +35,10 @@ const Page = async (props: PageProps) => {
 			select: { reviewee: true },
 		})
 		.then((_) => _.map((_) => _.reviewee));
+
+	const users = await db.user.findMany({
+		where: { isArchived: false, id: { not: user.id } },
+	});
 
 	return (
 		<div>
@@ -78,13 +83,11 @@ const Page = async (props: PageProps) => {
 									</div>
 								);
 							})}
-							<Button
-								variant="ghost"
-								className="rounded-xl border h-full min-h-16 border-dashed text-muted-foreground flex gap-1 items-center"
-							>
-								<PlusCircle />
-								追加する
-							</Button>
+							<AddReviewerButton
+								selfId={user.id}
+								users={users}
+								currentReviewerIds={reviewers.map((_) => _.id)}
+							/>
 						</div>
 					</div>
 				</div>

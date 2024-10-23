@@ -131,6 +131,26 @@ export const addReviewer = async (revieweeId: string, reviewerId: string) => {
 	}
 };
 
+/** ユーザーに複数のレビュアーを追加 */
+export const addReviewers = async (
+	revieweeId: string,
+	reviewerIds: string[],
+) => {
+	try {
+		const updated = await db.review.createMany({
+			data: reviewerIds.map((reviewerId) => ({
+				revieweeId,
+				reviewerId,
+			})),
+		});
+		return success(updated);
+	} catch (error) {
+		return failure("エラーが発生しました");
+	} finally {
+		revalidatePath("/dashboard/users");
+	}
+};
+
 /** ユーザーのレビュアーを削除 */
 export const removeReviewer = async (
 	revieweeId: string,
@@ -161,6 +181,26 @@ export const addReviewee = async (reviewerId: string, revieweeId: string) => {
 				reviewerId,
 				revieweeId,
 			},
+		});
+		return success(updated);
+	} catch (error) {
+		return failure("エラーが発生しました");
+	} finally {
+		revalidatePath("/dashboard/users");
+	}
+};
+
+/** ユーザーに複数のレビュイーを追加 */
+export const addReviewees = async (
+	reviewerId: string,
+	revieweeIds: string[],
+) => {
+	try {
+		const updated = await db.review.createMany({
+			data: revieweeIds.map((revieweeId) => ({
+				reviewerId,
+				revieweeId,
+			})),
 		});
 		return success(updated);
 	} catch (error) {

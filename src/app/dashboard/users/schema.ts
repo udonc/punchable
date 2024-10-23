@@ -23,3 +23,7 @@ export const ArchiveUserInput = z.object({});
 export const UnarchiveUserInput = z.object({});
 
 export const DeleteUserInput = z.object({});
+
+export const AddReviewerInput = z.object({
+	reviewerIds: z.array(z.string()),
+});
