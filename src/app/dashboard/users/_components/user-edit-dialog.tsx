@@ -104,8 +104,7 @@ export const UserEditDialog = forwardRef<
 			const result = await updateUser(id, data);
 
 			if (result._type === "failure") {
-				console.error(result.error);
-				toast.error("エラーが発生しました");
+				toast.error(result.error);
 				return;
 			}
 

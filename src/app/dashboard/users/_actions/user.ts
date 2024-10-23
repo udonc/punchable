@@ -3,6 +3,7 @@
 import { failure, success, type ActionResult } from "@/lib/actions";
 import { db } from "@/server/db";
 import { getIp } from "@/util/ip";
+import { getUserStatusById, getUserStatusByIp } from "@/util/user";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import type { z } from "zod";
@@ -34,6 +35,16 @@ export const checkDuplicateIp = async (
 export const createUser = async (data: z.infer<typeof CreateUserInput>) => {
 	const ip = getIp(await headers()) || "";
 
+	const status = await getUserStatusByIp(ip);
+
+	if (!status) {
+		return failure("IPアドレスが不正です");
+	}
+
+	if (!status.canAccessUserManagement) {
+		return failure("ユーザー管理の権限がありません");
+	}
+
 	try {
 		const created = await db.user.create({
 			data: {
@@ -56,6 +67,29 @@ export const updateUser = async (
 	data: z.infer<typeof CreateUserInput>,
 ) => {
 	try {
+		// リクエストの認可
+		const ip = getIp(await headers()) || "";
+		const statusByIp = await getUserStatusByIp(ip);
+
+		if (!statusByIp) {
+			return failure("IPアドレスが不正です");
+		}
+
+		if (!statusByIp.canAccessUserManagement) {
+			return failure("ユーザー管理の権限がありません");
+		}
+
+		// ユーザーがアーカイブされているかどうかを確認
+		const status = await getUserStatusById(id);
+
+		if (!status) {
+			return failure("ユーザーが見つかりません");
+		}
+
+		if (status.isArchived) {
+			return failure("アーカイブされたユーザーは編集できません");
+		}
+
 		const updated = await db.user.update({
 			where: { id },
 			data: {
