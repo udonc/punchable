@@ -61,9 +61,9 @@ export function DataTable<TData, TValue>({
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>
-								{headerGroup.headers.map((header) => {
+								{headerGroup.headers.map((header, i) => {
 									return (
-										<TableHead key={header.id}>
+										<TableHead key={i}>
 											{header.isPlaceholder
 												? null
 												: flexRender(
@@ -78,13 +78,13 @@ export function DataTable<TData, TValue>({
 					</TableHeader>
 					<TableBody>
 						{table.getRowModel().rows?.length ? (
-							table.getRowModel().rows.map((row) => (
+							table.getRowModel().rows.map((row, i) => (
 								<TableRow
-									key={row.id}
+									key={i}
 									data-state={row.getIsSelected() && "selected"}
 								>
-									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id}>
+									{row.getVisibleCells().map((cell, i) => (
+										<TableCell key={i}>
 											{flexRender(
 												cell.column.columnDef.cell,
 												cell.getContext(),
