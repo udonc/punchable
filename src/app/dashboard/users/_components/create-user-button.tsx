@@ -36,6 +36,11 @@ export const UserCreationButton: FC = () => {
 	const form = useForm<z.infer<typeof CreateUserInput>>({
 		resolver: zodResolver(CreateUserInput),
 		mode: "onSubmit",
+		defaultValues: {
+			name: "",
+			slug: "",
+			ip: "",
+		},
 	});
 
 	const [isPending, startTransition] = useTransition();
