@@ -26,6 +26,7 @@ const Page = async (props: PageProps) => {
 	const reviewers = await db.review
 		.findMany({
 			where: { revieweeId: user.id, reviewer: { isArchived: false } },
+			orderBy: { reviewer: { slug: "asc" } },
 			select: { reviewer: true },
 		})
 		.then((_) => _.map((_) => _.reviewer)); // ネストを一段階外す
@@ -33,12 +34,14 @@ const Page = async (props: PageProps) => {
 	const reviewees = await db.review
 		.findMany({
 			where: { reviewerId: user.id, reviewee: { isArchived: false } },
+			orderBy: { reviewee: { slug: "asc" } },
 			select: { reviewee: true },
 		})
 		.then((_) => _.map((_) => _.reviewee));
 
 	const users = await db.user.findMany({
 		where: { isArchived: false, id: { not: user.id } },
+		orderBy: { slug: "asc" },
 	});
 
 	return (

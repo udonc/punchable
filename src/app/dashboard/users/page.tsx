@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 const Page: NextPage = async () => {
 	consoleQueryCount();
-	const users = await db.user.findMany({ orderBy: { createdAt: "asc" } });
+	const users = await db.user.findMany({ orderBy: { slug: "asc" } });
 	const userCount = users.length;
 
 	return (
