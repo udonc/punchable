@@ -2,19 +2,19 @@ import { Button } from "@/components/ui/button";
 import { db } from "@/server/db";
 import Avatar from "boring-avatars";
 import { EthernetPort, PlusCircle } from "lucide-react";
-import { NextPage } from "next";
 import { notFound } from "next/navigation";
 import { UserInfoHead } from "./_components/user-info-head";
 
 type PageProps = {
-	params: {
+	params: Promise<{
 		slug: string;
-	};
+	}>;
 };
 
-const Page: NextPage<PageProps> = async (props) => {
+const Page = async (props: PageProps) => {
+	const params = await props.params;
 	const user = await db.user.findUnique({
-		where: { slug: props.params.slug },
+		where: { slug: params.slug },
 	});
 
 	if (!user) {

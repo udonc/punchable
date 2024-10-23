@@ -8,11 +8,6 @@ import { headers } from "next/headers";
 import type { z } from "zod";
 import type { CreateUserInput } from "../schema";
 
-export const testAction = (value: string) => {
-	console.log(value);
-	return true;
-};
-
 export const checkDuplicateSlug = async (
 	slug: string,
 ): Promise<ActionResult<{ duplicated: boolean }>> => {
@@ -37,7 +32,7 @@ export const checkDuplicateIp = async (
 
 /** ユーザーの新規作成 */
 export const createUser = async (data: z.infer<typeof CreateUserInput>) => {
-	const ip = getIp(headers()) || "";
+	const ip = getIp(await headers()) || "";
 
 	try {
 		const created = await db.user.create({

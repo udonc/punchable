@@ -4,7 +4,7 @@ import type { NextPage } from "next";
 import { headers } from "next/headers";
 
 const page: NextPage = async () => {
-	const header = headers();
+	const header = await headers();
 	const ip = getIp(header) || "";
 
 	const user = await db.user

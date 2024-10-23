@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 
-export const consoleLog = (message: string) => {
+export const consoleLog = async (message: string) => {
 	console.log(message);
 	revalidatePath("/dashboard");
 };
