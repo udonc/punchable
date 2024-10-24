@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { db } from "@/server/db";
 import Avatar from "boring-avatars";
 import { EthernetPort } from "lucide-react";
@@ -68,6 +69,15 @@ const Page = async (props: PageProps) => {
 					このユーザーはアーカイブされています。情報の編集はできません。
 				</div>
 			)}
+			<div className="p-4">
+				<div className="grid gap-4">
+					<h3 className="text-lg font-semibold">権限</h3>
+					<div className="flex gap-2">
+						{user.canAccessTimecard && <Badge>タイムカード</Badge>}
+						{user.canAccessUserManagement && <Badge>ユーザー管理</Badge>}
+					</div>
+				</div>
+			</div>
 			<div className="p-4">
 				<div className="grid gap-4">
 					<h3 className="text-lg font-semibold">
