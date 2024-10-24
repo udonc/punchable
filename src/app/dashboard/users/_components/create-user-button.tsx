@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
 	Dialog,
 	DialogContent,
@@ -40,12 +41,15 @@ export const UserCreationButton: FC = () => {
 			name: "",
 			slug: "",
 			ip: "",
+			canAccessTimecard: false,
+			canAccessUserManagement: false,
 		},
 	});
 
 	const [isPending, startTransition] = useTransition();
 
 	const onSubmit = async (data: z.infer<typeof CreateUserInput>) => {
+		console.log(data);
 		startTransition(async () => {
 			const [checkSlugResult, checkIpResult] = await Promise.all([
 				checkDuplicateSlug(data.slug),
@@ -168,6 +172,23 @@ export const UserCreationButton: FC = () => {
 									</FormItem>
 								)}
 							/>
+							<div>
+								<FormField
+									control={form.control}
+									name="canAccessTimecard"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>タイムカードへのアクセス</FormLabel>
+											<FormControl>
+												<Checkbox
+													checked={field.value}
+													onCheckedChange={field.onChange}
+												/>
+											</FormControl>
+										</FormItem>
+									)}
+								/>
+							</div>
 						</div>
 						<Button type="submit" disabled={isPending}>
 							{isPending ? "送信中..." : "作成"}

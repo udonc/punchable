@@ -46,6 +46,8 @@ export const createUser = async (data: z.infer<typeof CreateUserInput>) => {
 				name: data.name,
 				slug: data.slug,
 				ip: data.ip,
+				canAccessTimecard: data.canAccessTimecard,
+				canAccessUserManagement: data.canAccessUserManagement,
 			},
 		});
 		return success(created);
