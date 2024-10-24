@@ -3,28 +3,28 @@
 import { X } from "lucide-react";
 import { useTransition } from "react";
 import { toast } from "sonner";
-import { removeReviewer } from "../../_actions/user";
+import { removeReviewee } from "../../_actions/user";
 
-type RemoveReviewerButtonProps = {
+type RemoveRevieweeButtonProps = {
 	selfId: string;
-	reviewerId: string;
+	revieweeId: string;
 };
 
-export const RemoveReviewerButton = ({
+export const RemoveRevieweeButton = ({
 	selfId,
-	reviewerId,
-}: RemoveReviewerButtonProps) => {
+	revieweeId,
+}: RemoveRevieweeButtonProps) => {
 	const [isPending, startTransition] = useTransition();
 
 	const handleClick = async () => {
 		startTransition(async () => {
-			const result = await removeReviewer(selfId, reviewerId);
+			const result = await removeReviewee(selfId, revieweeId);
 			if (result._type === "failure") {
 				toast.error(result.error);
 				return;
 			}
 
-			toast.success("日報管理者を削除しました");
+			toast.success("日報閲覧の権限を削除しました");
 		});
 	};
 

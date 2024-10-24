@@ -15,51 +15,51 @@ import { useState, useTransition } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { addReviewers } from "../../_actions/user";
-import { AddReviewerInput } from "../../schema";
+import { addReviewees } from "../../_actions/user";
+import { AddRevieweeInput } from "../../schema";
 import { UserMultiSelector } from "./user-multi-selector";
 
-type AddReviewerButtonProps = {
+type AddRevieweeButtonProps = {
 	selfId: string;
 	users: {
 		id: string;
 		name: string;
 		slug: string;
 	}[];
-	currentReviewerIds?: string[];
+	currentRevieweeIds?: string[];
 };
 
-export const AddReviewerButton = ({
+export const AddRevieweeButton = ({
 	selfId,
 	users,
-	currentReviewerIds,
-}: AddReviewerButtonProps) => {
-	const form = useForm<z.infer<typeof AddReviewerInput>>({
-		resolver: zodResolver(AddReviewerInput),
+	currentRevieweeIds,
+}: AddRevieweeButtonProps) => {
+	const form = useForm<z.infer<typeof AddRevieweeInput>>({
+		resolver: zodResolver(AddRevieweeInput),
 		mode: "onSubmit",
 		defaultValues: {
-			reviewerIds: [],
+			revieweeIds: [],
 		},
 	});
 
 	const selectedUserIds = useWatch({
 		control: form.control,
-		name: "reviewerIds",
+		name: "revieweeIds",
 	});
 
 	const [isPending, startTransition] = useTransition();
 	const [isOpen, setIsOpen] = useState(false);
 
-	const onSubmit = async (data: z.infer<typeof AddReviewerInput>) => {
+	const onSubmit = async (data: z.infer<typeof AddRevieweeInput>) => {
 		startTransition(async () => {
-			const result = await addReviewers(selfId, data.reviewerIds);
+			const result = await addReviewees(selfId, data.revieweeIds);
 
 			if (result._type === "failure") {
 				toast.error(result.error);
 				return;
 			}
 
-			toast.success("日報管理者を追加しました");
+			toast.success("日報閲覧の権利を付与しました");
 			form.reset();
 			setIsOpen(false);
 		});
@@ -77,9 +77,9 @@ export const AddReviewerButton = ({
 				</Button>
 			</DialogTrigger>
 			<DialogContent>
-				<DialogTitle>日報を確認できる人を追加</DialogTitle>
+				<DialogTitle>日報を閲覧できる人を追加</DialogTitle>
 				<DialogDescription>
-					日報を確認できる人を追加することで、その人は日報を確認できるようになります。
+					日報を閲覧できるユーザーを追加します。選択したユーザーの日報を閲覧できるようになります。
 				</DialogDescription>
 				<div>
 					<Form {...form}>
@@ -88,8 +88,8 @@ export const AddReviewerButton = ({
 								<div>{selectedUserIds.length} 人が選択されています</div>
 								<UserMultiSelector
 									users={users}
-									currentSelectedUserIds={currentReviewerIds || []}
-									name="reviewerIds"
+									currentSelectedUserIds={currentRevieweeIds || []}
+                  name="revieweeIds"
 								/>
 								<Button type="submit">追加する</Button>
 							</div>

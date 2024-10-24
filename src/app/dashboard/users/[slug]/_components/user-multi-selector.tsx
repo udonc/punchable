@@ -4,6 +4,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import Avatar from "boring-avatars";
+import { ComponentProps } from "react";
 
 type UserMultiSelectorProps = {
 	users: {
@@ -12,18 +13,20 @@ type UserMultiSelectorProps = {
 		slug: string;
 	}[];
 	currentSelectedUserIds: string[];
+	name: ComponentProps<typeof FormField>["name"];
 };
 
 export const UserMultiSelector = ({
 	users,
 	currentSelectedUserIds,
+	name,
 }: UserMultiSelectorProps) => {
 	return (
 		<div className="h-96 border rounded-lg overflow-hidden overflow-y-scroll">
 			{users.map((user) => (
 				<FormField
 					key={user.id}
-					name="reviewerIds"
+					name={name}
 					render={({ field }) => {
 						const isChecked = field.value?.includes(user.id);
 						const isDisabled = currentSelectedUserIds?.includes(user.id);

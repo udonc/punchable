@@ -1,9 +1,10 @@
-import { Button } from "@/components/ui/button";
 import { db } from "@/server/db";
 import Avatar from "boring-avatars";
-import { EthernetPort, PlusCircle } from "lucide-react";
+import { EthernetPort } from "lucide-react";
 import { notFound } from "next/navigation";
+import { AddRevieweeButton } from "./_components/add-reviewee-button";
 import { AddReviewerButton } from "./_components/add-reviewer-button";
+import { RemoveRevieweeButton } from "./_components/remove-reviewee-button";
 import { RemoveReviewerButton } from "./_components/remove-reviewer-button";
 import { UserInfoHead } from "./_components/user-info-head";
 
@@ -114,19 +115,21 @@ const Page = async (props: PageProps) => {
 								return (
 									<div
 										key={reviewee.id}
-										className="p-2 bg-background rounded-xl border"
+										className="p-2 bg-background rounded-xl border relative group"
 									>
 										<UserInfoHead user={reviewee} />
+										<RemoveRevieweeButton
+											selfId={user.id}
+											revieweeId={reviewee.id}
+										/>
 									</div>
 								);
 							})}
-							<Button
-								variant="ghost"
-								className="rounded-xl border h-full min-h-16 border-dashed text-muted-foreground flex gap-1 items-center"
-							>
-								<PlusCircle />
-								追加する
-							</Button>
+							<AddRevieweeButton
+								selfId={user.id}
+								users={users}
+								currentRevieweeIds={reviewees.map((_) => _.id)}
+							/>
 						</div>
 					</div>
 				</div>

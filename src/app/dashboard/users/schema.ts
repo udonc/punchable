@@ -27,3 +27,7 @@ export const DeleteUserInput = z.object({});
 export const AddReviewerInput = z.object({
 	reviewerIds: z.array(z.string()),
 });
+
+export const AddRevieweeInput = z.object({
+	revieweeIds: z.array(z.string()),
+});
