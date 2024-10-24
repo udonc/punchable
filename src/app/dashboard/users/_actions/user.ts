@@ -69,16 +69,11 @@ export const updateUser = async (
 		if (!status.canAccessUserManagement)
 			return failure("ユーザー管理の権限がありません");
 
-		// ユーザーがアーカイブされているかどうかを確認
+		// ユーザーがアーカイブされている場合は編集できない
 		const userStatus = await getUserStatusById(id);
-
-		if (!userStatus) {
-			return failure("ユーザーが見つかりません");
-		}
-
-		if (userStatus.isArchived) {
+		if (!userStatus) return failure("ユーザーが見つかりません");
+		if (userStatus.isArchived)
 			return failure("アーカイブされたユーザーは編集できません");
-		}
 
 		const updated = await db.user.update({
 			where: { id },
@@ -168,6 +163,12 @@ export const addReviewer = async (revieweeId: string, reviewerId: string) => {
 	if (!status.canAccessUserManagement)
 		return failure("ユーザー管理の権限がありません");
 
+	// ユーザーがアーカイブされている場合は編集できない
+	const userStatus = await getUserStatusById(revieweeId);
+	if (!userStatus) return failure("ユーザーが見つかりません");
+	if (userStatus.isArchived)
+		return failure("アーカイブされたユーザーは編集できません");
+
 	try {
 		const updated = await db.review.create({
 			data: {
@@ -196,6 +197,12 @@ export const addReviewers = async (
 		if (!status.canAccessUserManagement)
 			return failure("ユーザー管理の権限がありません");
 
+		// ユーザーがアーカイブされている場合は編集できない
+		const userStatus = await getUserStatusById(revieweeId);
+		if (!userStatus) return failure("ユーザーが見つかりません");
+		if (userStatus.isArchived)
+			return failure("アーカイブされたユーザーは編集できません");
+
 		const updated = await db.review.createMany({
 			data: reviewerIds.map((reviewerId) => ({
 				revieweeId,
@@ -223,6 +230,12 @@ export const removeReviewer = async (
 		if (!status.canAccessUserManagement)
 			return failure("ユーザー管理の権限がありません");
 
+		// ユーザーがアーカイブされている場合は編集できない
+		const userStatus = await getUserStatusById(revieweeId);
+		if (!userStatus) return failure("ユーザーが見つかりません");
+		if (userStatus.isArchived)
+			return failure("アーカイブされたユーザーは編集できません");
+
 		await db.review.delete({
 			where: {
 				reviewerId_revieweeId: {
@@ -248,6 +261,12 @@ export const addReviewee = async (reviewerId: string, revieweeId: string) => {
 		if (!status) return failure("IPアドレスが不正です");
 		if (!status.canAccessUserManagement)
 			return failure("ユーザー管理の権限がありません");
+
+		// ユーザーがアーカイブされている場合は編集できない
+		const userStatus = await getUserStatusById(reviewerId);
+		if (!userStatus) return failure("ユーザーが見つかりません");
+		if (userStatus.isArchived)
+			return failure("アーカイブされたユーザーは編集できません");
 
 		const updated = await db.review.create({
 			data: {
@@ -276,6 +295,12 @@ export const addReviewees = async (
 		if (!status.canAccessUserManagement)
 			return failure("ユーザー管理の権限がありません");
 
+		// ユーザーがアーカイブされている場合は編集できない
+		const userStatus = await getUserStatusById(reviewerId);
+		if (!userStatus) return failure("ユーザーが見つかりません");
+		if (userStatus.isArchived)
+			return failure("アーカイブされたユーザーは編集できません");
+
 		const updated = await db.review.createMany({
 			data: revieweeIds.map((revieweeId) => ({
 				reviewerId,
@@ -302,6 +327,12 @@ export const removeReviewee = async (
 		if (!status) return failure("IPアドレスが不正です");
 		if (!status.canAccessUserManagement)
 			return failure("ユーザー管理の権限がありません");
+
+		// ユーザーがアーカイブされている場合は編集できない
+		const userStatus = await getUserStatusById(reviewerId);
+		if (!userStatus) return failure("ユーザーが見つかりません");
+		if (userStatus.isArchived)
+			return failure("アーカイブされたユーザーは編集できません");
 
 		await db.review.delete({
 			where: {
