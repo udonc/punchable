@@ -29,6 +29,7 @@ model User {
   ReviewAsReviewer        Review[]     @relation(name: "reviewer") /// このユーザーがレビュアーとして関連付けられたレビュー
   ReviewAsReviewee        Review[]     @relation(name: "reviewee") /// このユーザーがレビュイーとして関連付けられたレビュー
   UserOrderAttribute      UserOrder[]
+  Report                  Report[]
 }
 
 /// ユーザーの並び順
@@ -53,6 +54,8 @@ model Report {
   isDraft   Boolean  @default(false) /// 下書きかどうか
   task      String /// 作業内容 (Markdown)
   progress  String /// 進捗 (Markdown)
+  user      User     @relation(fields: [userId], references: [id]) /// このレポートに紐づくユーザー
+  userId    String /// このレポートに紐づくユーザーの ID
 }
 
 /// 中期目標
