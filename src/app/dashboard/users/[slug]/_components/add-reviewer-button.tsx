@@ -70,7 +70,7 @@ export const AddReviewerButton = ({
 			<DialogTrigger asChild>
 				<Button
 					variant="ghost"
-					className="rounded-xl border h-full min-h-16 border-dashed text-muted-foreground flex gap-1 items-center"
+					className="rounded-xl border h-full min-h-14 border-dashed text-muted-foreground flex gap-1 items-center"
 				>
 					<PlusCircle />
 					追加する

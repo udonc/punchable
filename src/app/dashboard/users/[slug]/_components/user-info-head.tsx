@@ -11,7 +11,7 @@ type UserInfoHeadProps = {
 
 export const UserInfoHead = ({ user }: UserInfoHeadProps) => {
 	return (
-		<div className="flex gap-2 items-center">
+		<div className="flex gap-2 items-center h-9 min-w-32">
 			<Avatar size={40} name={user.slug} variant="beam" />
 			<Button variant="link" className="grid p-0 m-0" asChild>
 				<Link href={`/dashboard/users/${user.slug}`}>
