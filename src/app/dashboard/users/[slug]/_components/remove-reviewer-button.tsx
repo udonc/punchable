@@ -20,7 +20,7 @@ export const RemoveReviewerButton = ({
 		startTransition(async () => {
 			const result = await removeReviewer(selfId, reviewerId);
 			if (result._type === "failure") {
-				toast.error("エラーが発生しました");
+				toast.error(result.error);
 				return;
 			}
 
