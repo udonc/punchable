@@ -74,8 +74,7 @@ export const UserEditDialog = forwardRef<
 			]);
 
 			if (checkSlugResult._type === "failure") {
-				console.error(checkSlugResult.error);
-				toast.error("エラーが発生しました");
+				toast.error(checkSlugResult.error);
 				return;
 			}
 
@@ -88,8 +87,7 @@ export const UserEditDialog = forwardRef<
 			}
 
 			if (checkIpResult._type === "failure") {
-				console.error(checkIpResult.error);
-				toast.error("エラーが発生しました");
+				toast.error(checkIpResult.error);
 				return;
 			}
 

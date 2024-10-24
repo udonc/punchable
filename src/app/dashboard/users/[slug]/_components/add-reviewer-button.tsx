@@ -55,7 +55,7 @@ export const AddReviewerButton = ({
 			const result = await addReviewers(selfId, data.reviewerIds);
 
 			if (result._type === "failure") {
-				toast.error("エラーが発生しました");
+				toast.error(result.error);
 				return;
 			}
 

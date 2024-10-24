@@ -55,8 +55,7 @@ export const UserUnarchiveDialog = forwardRef<
 			const result = await unarchiveUser(user.id);
 
 			if (result._type === "failure") {
-				console.error(result.error);
-				toast.error("エラーが発生しました");
+				toast.error(result.error);
 				return;
 			}
 

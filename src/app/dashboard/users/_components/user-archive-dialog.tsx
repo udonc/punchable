@@ -57,8 +57,7 @@ export const UserArchiveDialog = forwardRef<
 			const result = await archiveUser(user.id);
 
 			if (result._type === "failure") {
-				console.error(result.error);
-				toast.error("エラーが発生しました");
+				toast.error(result.error);
 				return;
 			}
 

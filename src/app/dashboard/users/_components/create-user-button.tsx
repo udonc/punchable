@@ -53,8 +53,7 @@ export const UserCreationButton: FC = () => {
 			]);
 
 			if (checkSlugResult._type === "failure") {
-				console.error(checkSlugResult.error);
-				toast.error("エラーが発生しました");
+				toast.error(checkSlugResult.error);
 				return;
 			}
 
