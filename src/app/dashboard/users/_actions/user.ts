@@ -33,19 +33,14 @@ export const checkDuplicateIp = async (
 
 /** ユーザーの新規作成 */
 export const createUser = async (data: z.infer<typeof CreateUserInput>) => {
-	const ip = getIp(await headers()) || "";
-
-	const status = await getUserStatusByIp(ip);
-
-	if (!status) {
-		return failure("IPアドレスが不正です");
-	}
-
-	if (!status.canAccessUserManagement) {
-		return failure("ユーザー管理の権限がありません");
-	}
-
 	try {
+		// リクエストの認可
+		const ip = getIp(await headers()) || "";
+		const status = await getUserStatusByIp(ip);
+		if (!status) return failure("IPアドレスが不正です");
+		if (!status.canAccessUserManagement)
+			return failure("ユーザー管理の権限がありません");
+
 		const created = await db.user.create({
 			data: {
 				name: data.name,
@@ -69,24 +64,19 @@ export const updateUser = async (
 	try {
 		// リクエストの認可
 		const ip = getIp(await headers()) || "";
-		const statusByIp = await getUserStatusByIp(ip);
-
-		if (!statusByIp) {
-			return failure("IPアドレスが不正です");
-		}
-
-		if (!statusByIp.canAccessUserManagement) {
+		const status = await getUserStatusByIp(ip);
+		if (!status) return failure("IPアドレスが不正です");
+		if (!status.canAccessUserManagement)
 			return failure("ユーザー管理の権限がありません");
-		}
 
 		// ユーザーがアーカイブされているかどうかを確認
-		const status = await getUserStatusById(id);
+		const userStatus = await getUserStatusById(id);
 
-		if (!status) {
+		if (!userStatus) {
 			return failure("ユーザーが見つかりません");
 		}
 
-		if (status.isArchived) {
+		if (userStatus.isArchived) {
 			return failure("アーカイブされたユーザーは編集できません");
 		}
 
@@ -109,6 +99,13 @@ export const updateUser = async (
 /** ユーザーの削除 */
 export const deleteUser = async (id: string) => {
 	try {
+		// リクエストの認可
+		const ip = getIp(await headers()) || "";
+		const status = await getUserStatusByIp(ip);
+		if (!status) return failure("IPアドレスが不正です");
+		if (!status.canAccessUserManagement)
+			return failure("ユーザー管理の権限がありません");
+
 		await db.user.delete({ where: { id } });
 		return success(null);
 	} catch (error) {
@@ -121,6 +118,13 @@ export const deleteUser = async (id: string) => {
 /** ユーザーのアーカイブ */
 export const archiveUser = async (id: string) => {
 	try {
+		// リクエストの認可
+		const ip = getIp(await headers()) || "";
+		const status = await getUserStatusByIp(ip);
+		if (!status) return failure("IPアドレスが不正です");
+		if (!status.canAccessUserManagement)
+			return failure("ユーザー管理の権限がありません");
+
 		const updated = await db.user.update({
 			where: { id },
 			data: { isArchived: true },
@@ -136,6 +140,13 @@ export const archiveUser = async (id: string) => {
 /** ユーザーのアーカイブ解除 */
 export const unarchiveUser = async (id: string) => {
 	try {
+		// リクエストの認可
+		const ip = getIp(await headers()) || "";
+		const status = await getUserStatusByIp(ip);
+		if (!status) return failure("IPアドレスが不正です");
+		if (!status.canAccessUserManagement)
+			return failure("ユーザー管理の権限がありません");
+
 		const updated = await db.user.update({
 			where: { id },
 			data: { isArchived: false },
@@ -150,6 +161,13 @@ export const unarchiveUser = async (id: string) => {
 
 /** ユーザーにレビュアーを追加 */
 export const addReviewer = async (revieweeId: string, reviewerId: string) => {
+	// リクエストの認可
+	const ip = getIp(await headers()) || "";
+	const status = await getUserStatusByIp(ip);
+	if (!status) return failure("IPアドレスが不正です");
+	if (!status.canAccessUserManagement)
+		return failure("ユーザー管理の権限がありません");
+
 	try {
 		const updated = await db.review.create({
 			data: {
@@ -171,6 +189,13 @@ export const addReviewers = async (
 	reviewerIds: string[],
 ) => {
 	try {
+		// リクエストの認可
+		const ip = getIp(await headers()) || "";
+		const status = await getUserStatusByIp(ip);
+		if (!status) return failure("IPアドレスが不正です");
+		if (!status.canAccessUserManagement)
+			return failure("ユーザー管理の権限がありません");
+
 		const updated = await db.review.createMany({
 			data: reviewerIds.map((reviewerId) => ({
 				revieweeId,
@@ -191,6 +216,13 @@ export const removeReviewer = async (
 	reviewerId: string,
 ) => {
 	try {
+		// リクエストの認可
+		const ip = getIp(await headers()) || "";
+		const status = await getUserStatusByIp(ip);
+		if (!status) return failure("IPアドレスが不正です");
+		if (!status.canAccessUserManagement)
+			return failure("ユーザー管理の権限がありません");
+
 		await db.review.delete({
 			where: {
 				reviewerId_revieweeId: {
@@ -210,6 +242,13 @@ export const removeReviewer = async (
 /** ユーザーにレビュイーを追加 */
 export const addReviewee = async (reviewerId: string, revieweeId: string) => {
 	try {
+		// リクエストの認可
+		const ip = getIp(await headers()) || "";
+		const status = await getUserStatusByIp(ip);
+		if (!status) return failure("IPアドレスが不正です");
+		if (!status.canAccessUserManagement)
+			return failure("ユーザー管理の権限がありません");
+
 		const updated = await db.review.create({
 			data: {
 				reviewerId,
@@ -230,6 +269,13 @@ export const addReviewees = async (
 	revieweeIds: string[],
 ) => {
 	try {
+		// リクエストの認可
+		const ip = getIp(await headers()) || "";
+		const status = await getUserStatusByIp(ip);
+		if (!status) return failure("IPアドレスが不正です");
+		if (!status.canAccessUserManagement)
+			return failure("ユーザー管理の権限がありません");
+
 		const updated = await db.review.createMany({
 			data: revieweeIds.map((revieweeId) => ({
 				reviewerId,
@@ -250,6 +296,13 @@ export const removeReviewee = async (
 	revieweeId: string,
 ) => {
 	try {
+		// リクエストの認可
+		const ip = getIp(await headers()) || "";
+		const status = await getUserStatusByIp(ip);
+		if (!status) return failure("IPアドレスが不正です");
+		if (!status.canAccessUserManagement)
+			return failure("ユーザー管理の権限がありません");
+
 		await db.review.delete({
 			where: {
 				reviewerId_revieweeId: {
