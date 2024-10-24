@@ -16,20 +16,21 @@ datasource db {
 
 /// ユーザー
 model User {
-  id                      String       @id @default(cuid()) /// ID
-  createdAt               DateTime     @default(now()) /// 作成日時
-  updatedAt               DateTime     @updatedAt /// 更新日時
-  isArchived              Boolean      @default(false) /// アーカイブされたかどうか
+  id                      String        @id @default(cuid()) /// ID
+  createdAt               DateTime      @default(now()) /// 作成日時
+  updatedAt               DateTime      @updatedAt /// 更新日時
+  isArchived              Boolean       @default(false) /// アーカイブされたかどうか
   name                    String /// Human-readable なユーザーの名前 (フルネーム, または名字のみなど、任意)
-  slug                    String       @unique /// URL に使われるユーザーの名前
-  ip                      String       @unique /// ユーザーが使用する IP アドレス
-  canAccessTimecard       Boolean      @default(false) /// タイムカードにアクセスできるかどうか
-  canAccessUserManagement Boolean      @default(false) /// ユーザー管理にアクセスできるかどうか
+  slug                    String        @unique /// URL に使われるユーザーの名前
+  ip                      String        @unique /// ユーザーが使用する IP アドレス
+  canAccessTimecard       Boolean       @default(false) /// タイムカードにアクセスできるかどうか
+  canAccessUserManagement Boolean       @default(false) /// ユーザー管理にアクセスできるかどうか
   Attendance              Attendance[] /// ユーザーの出勤情報
-  ReviewAsReviewer        Review[]     @relation(name: "reviewer") /// このユーザーがレビュアーとして関連付けられたレビュー
-  ReviewAsReviewee        Review[]     @relation(name: "reviewee") /// このユーザーがレビュイーとして関連付けられたレビュー
+  ReviewAsReviewer        Review[]      @relation(name: "reviewer") /// このユーザーがレビュアーとして関連付けられたレビュー
+  ReviewAsReviewee        Review[]      @relation(name: "reviewee") /// このユーザーがレビュイーとして関連付けられたレビュー
   UserOrderAttribute      UserOrder[]
   Report                  Report[]
+  MidTermGoal             MidTermGoal[]
 }
 
 /// ユーザーの並び順
@@ -54,7 +55,7 @@ model Report {
   isDraft   Boolean  @default(false) /// 下書きかどうか
   task      String /// 作業内容 (Markdown)
   progress  String /// 進捗 (Markdown)
-  user      User     @relation(fields: [userId], references: [id]) /// このレポートに紐づくユーザー
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade) /// このレポートに紐づくユーザー
   userId    String /// このレポートに紐づくユーザーの ID
 }
 
@@ -64,13 +65,15 @@ model MidTermGoal {
   createdAt DateTime @default(now()) /// 作成日時
   updatedAt DateTime @updatedAt /// 更新日時
   body      String /// 本文 (Plain text)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade) /// この中期目標に紐づくユーザー
+  userId    String /// この中期目標に紐づくユーザーの ID
 }
 
 model Review {
   id         String @id @default(cuid()) /// ID
-  reviewer   User   @relation(name: "reviewer", fields: [reviewerId], references: [id]) /// レビュアー
+  reviewer   User   @relation(name: "reviewer", fields: [reviewerId], references: [id], onDelete: Cascade) /// レビュアー
   reviewerId String /// レビュアーの ID
-  reviewee   User   @relation(name: "reviewee", fields: [revieweeId], references: [id]) /// レビュイー
+  reviewee   User   @relation(name: "reviewee", fields: [revieweeId], references: [id], onDelete: Cascade) /// レビュイー
   revieweeId String /// レビュイーの ID
 
   @@unique([reviewerId, revieweeId])
@@ -84,6 +87,6 @@ model Attendance {
   date      DateTime /// 日付
   type      String /// 種類 (出勤: "attend", 欠席: "absent", その他: "other")
   note      String? /// メモ
-  User      User     @relation(fields: [userId], references: [id]) /// このタイムカードに紐づくユーザー
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade) /// このタイムカードに紐づくユーザー
   userId    String /// このタイムカードに紐づくユーザーの ID
 }
