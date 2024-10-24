@@ -89,7 +89,7 @@ export const AddRevieweeButton = ({
 								<UserMultiSelector
 									users={users}
 									currentSelectedUserIds={currentRevieweeIds || []}
-                  name="revieweeIds"
+									name="revieweeIds"
 								/>
 								<Button type="submit">追加する</Button>
 							</div>
