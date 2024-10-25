@@ -184,9 +184,7 @@ export const UserCreationButton: FC = () => {
 													onCheckedChange={field.onChange}
 												/>
 											</FormControl>
-											<FormLabel className="m-0">
-												タイムカードへのアクセスを許可する
-											</FormLabel>
+											<FormLabel>タイムカードへのアクセスを許可する</FormLabel>
 										</FormItem>
 									)}
 								/>
@@ -203,7 +201,7 @@ export const UserCreationButton: FC = () => {
 													onCheckedChange={field.onChange}
 												/>
 											</FormControl>
-											<FormLabel className="m-0">
+											<FormLabel>
 												ユーザー管理画面へのアクセスを許可する
 											</FormLabel>
 										</FormItem>
