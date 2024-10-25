@@ -177,14 +177,35 @@ export const UserCreationButton: FC = () => {
 									control={form.control}
 									name="canAccessTimecard"
 									render={({ field }) => (
-										<FormItem>
-											<FormLabel>タイムカードへのアクセス</FormLabel>
+										<FormItem className="flex gap-2 items-center space-y-0">
 											<FormControl>
 												<Checkbox
 													checked={field.value}
 													onCheckedChange={field.onChange}
 												/>
 											</FormControl>
+											<FormLabel className="m-0">
+												タイムカードへのアクセスを許可する
+											</FormLabel>
+										</FormItem>
+									)}
+								/>
+							</div>
+							<div>
+								<FormField
+									control={form.control}
+									name="canAccessUserManagement"
+									render={({ field }) => (
+										<FormItem className="flex gap-2 items-center space-y-0">
+											<FormControl>
+												<Checkbox
+													checked={field.value}
+													onCheckedChange={field.onChange}
+												/>
+											</FormControl>
+											<FormLabel className="m-0">
+												ユーザー管理画面へのアクセスを許可する
+											</FormLabel>
 										</FormItem>
 									)}
 								/>
