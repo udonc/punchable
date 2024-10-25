@@ -18,6 +18,8 @@ export const UpdateUserInput = z.object({
 		.min(1)
 		.regex(/^[a-z0-9-]+$/, "半角英数字とハイフンのみで入力する必要があります"),
 	ip: z.string().min(1).ip("有効なIPアドレスを入力してください"),
+	canAccessUserManagement: z.boolean().optional(),
+	canAccessTimecard: z.boolean().optional(),
 });
 
 export const ArchiveUserInput = z.object({});

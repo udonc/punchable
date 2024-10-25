@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
 	Dialog,
 	DialogContent,
@@ -42,6 +43,8 @@ type UserEditDialogProps = {
 		name: string;
 		slug: string;
 		ip: string;
+		canAccessTimecard: boolean;
+		canAccessUserManagement: boolean;
 	};
 };
 
@@ -178,6 +181,42 @@ export const UserEditDialog = forwardRef<
 									</FormItem>
 								)}
 							/>
+							<div>
+								<FormField
+									control={form.control}
+									name="canAccessTimecard"
+									render={({ field }) => (
+										<FormItem className="flex gap-2 items-center space-y-0">
+											<FormControl>
+												<Checkbox
+													checked={field.value}
+													onCheckedChange={field.onChange}
+												/>
+											</FormControl>
+											<FormLabel>タイムカードへのアクセスを許可する</FormLabel>
+										</FormItem>
+									)}
+								/>
+							</div>
+							<div>
+								<FormField
+									control={form.control}
+									name="canAccessUserManagement"
+									render={({ field }) => (
+										<FormItem className="flex gap-2 items-center space-y-0">
+											<FormControl>
+												<Checkbox
+													checked={field.value}
+													onCheckedChange={field.onChange}
+												/>
+											</FormControl>
+											<FormLabel>
+												ユーザー管理画面へのアクセスを許可する
+											</FormLabel>
+										</FormItem>
+									)}
+								/>
+							</div>
 						</div>
 						<Button type="submit" disabled={isPending}>
 							{isPending ? "送信中..." : "編集完了"}

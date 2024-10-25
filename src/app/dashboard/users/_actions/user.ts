@@ -7,7 +7,7 @@ import { getUserStatusById, getUserStatusByIp } from "@/util/user";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import type { z } from "zod";
-import type { CreateUserInput } from "../schema";
+import type { CreateUserInput, UpdateUserInput } from "../schema";
 
 export const checkDuplicateSlug = async (
 	slug: string,
@@ -61,7 +61,7 @@ export const createUser = async (data: z.infer<typeof CreateUserInput>) => {
 /** ユーザーの更新 */
 export const updateUser = async (
 	id: string,
-	data: z.infer<typeof CreateUserInput>,
+	data: z.infer<typeof UpdateUserInput>,
 ) => {
 	try {
 		// リクエストの認可
@@ -83,6 +83,8 @@ export const updateUser = async (
 				name: data.name,
 				slug: data.slug,
 				ip: data.ip,
+				canAccessTimecard: data.canAccessTimecard,
+				canAccessUserManagement: data.canAccessUserManagement,
 			},
 		});
 		return success(updated);

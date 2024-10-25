@@ -15,6 +15,8 @@ export type User = {
 	slug: string;
 	ip: string;
 	isArchived: boolean;
+	canAccessTimecard: boolean;
+	canAccessUserManagement: boolean;
 };
 
 export const columns: ColumnDef<User>[] = [

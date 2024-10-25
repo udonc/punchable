@@ -82,7 +82,13 @@ export const ActionDropDownMenu = ({ row }: { row: Row<User> }) => {
 			<UserEditDialog
 				ref={UserEditDialogRef}
 				id={user.id}
-				oldUser={{ name: user.name, slug: user.slug, ip: user.ip }}
+				oldUser={{
+					name: user.name,
+					slug: user.slug,
+					ip: user.ip,
+					canAccessTimecard: user.canAccessTimecard,
+					canAccessUserManagement: user.canAccessUserManagement,
+				}}
 			/>
 		</div>
 	);
