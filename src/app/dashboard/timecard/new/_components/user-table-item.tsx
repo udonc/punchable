@@ -18,8 +18,9 @@ export const UserTableItem = (props: UserTableItemProps) => {
 		transition,
 	};
 	return (
-		<div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+		<div ref={setNodeRef} style={style} {...attributes}>
 			<div className="p-4 border select-none">{props.name}</div>
+			<div {...listeners}>::HANDLE</div>
 		</div>
 	);
 };
