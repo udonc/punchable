@@ -28,7 +28,7 @@ model User {
   Attendance              Attendance[] /// ユーザーの出勤情報
   ReviewAsReviewer        Review[]      @relation(name: "reviewer") /// このユーザーがレビュアーとして関連付けられたレビュー
   ReviewAsReviewee        Review[]      @relation(name: "reviewee") /// このユーザーがレビュイーとして関連付けられたレビュー
-  UserOrderAttribute      UserOrder[]
+  UserOrder               UserOrder[]
   Report                  Report[]
   MidTermGoal             MidTermGoal[]
 }
