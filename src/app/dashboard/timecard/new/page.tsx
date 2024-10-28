@@ -1,4 +1,5 @@
 import { db } from "@/server/db";
+import { UserTable } from "./_components/user-table";
 
 const Page = async () => {
 	// ユーザー一覧取得
@@ -33,6 +34,7 @@ const Page = async () => {
 					タイムカードを新規に打刻します。
 				</p>
 			</hgroup>
+			<UserTable users={sorted} />
 			<code className="font-mono text-sm">
 				<pre>{JSON.stringify(sorted, null, 4)}</pre>
 			</code>
