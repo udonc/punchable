@@ -43,7 +43,7 @@ model UserOrder {
   userId    String /// この並び順に紐づくユーザーの ID
   order     Int /// 並び順
 
-  @@unique([userId, key, order])
+  @@unique([userId, key])
 }
 
 /// レポート
