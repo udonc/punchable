@@ -1,13 +1,9 @@
 "use client";
 
-import { SelfInfoContext } from "@/components/self-info-provider";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import Avatar from "boring-avatars";
-import Link from "next/link";
-import { useContext } from "react";
 import { ActionDropDownMenu } from "./_components/action-dropdown-menu";
+import { NameCell } from "./_components/user-table-cell";
 
 export type User = {
 	id: string;
@@ -41,19 +37,7 @@ export const columns: ColumnDef<User>[] = [
 		accessorKey: "name",
 		header: "名前",
 		cell: ({ row }) => {
-			const self = useContext(SelfInfoContext);
-			return (
-				<div className="flex gap-1 items-center">
-					<Button variant="link" className="text-left" asChild>
-						<Link href={`/dashboard/users/${row.original.slug}`}>
-							{row.original.name}
-						</Link>
-					</Button>
-					{self?.slug === row.original.slug && (
-						<Badge className="hover:bg-foreground">自分</Badge>
-					)}
-				</div>
-			);
+			return <NameCell user={row.original} />;
 		},
 	},
 	{
