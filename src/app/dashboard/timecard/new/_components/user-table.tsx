@@ -27,13 +27,13 @@ export const UserTable = (props: UserTableProps) => {
 			<DndContext
 				onDragEnd={(e) => {
 					if (e.active.id === e.over?.id) return;
-					const oldIndex = props.users.findIndex((_) => _.id === e.active.id);
-					const newIndex = props.users.findIndex((_) => _.id === e.over?.id);
-					const newUsers = arrayMove(props.users, oldIndex, newIndex);
+					const oldIndex = users.findIndex((_) => _.id === e.active.id);
+					const newIndex = users.findIndex((_) => _.id === e.over?.id);
+					const newUsers = arrayMove(users, oldIndex, newIndex);
 					setUsers(newUsers);
 				}}
 			>
-				<SortableContext items={props.users.map((_) => _.id)}>
+				<SortableContext items={users}>
 					<div className="grid grid-cols-6">
 						{users.map((user) => (
 							<UserTableItem key={user.id} {...user} />
