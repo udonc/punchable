@@ -34,7 +34,9 @@ const Page = async () => {
 					タイムカードを新規に打刻します。
 				</p>
 			</hgroup>
-			<UserTable users={sorted} />
+			<main className="container">
+				<UserTable users={sorted} />
+			</main>
 			<code className="font-mono text-sm">
 				<pre>{JSON.stringify(sorted, null, 4)}</pre>
 			</code>
