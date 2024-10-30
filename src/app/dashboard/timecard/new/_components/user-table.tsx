@@ -1,12 +1,24 @@
 "use client";
 
+import { CreateTimecardInput } from "@/app/dashboard/users/schema";
 import { Button } from "@/components/ui/button";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormMessage,
+} from "@/components/ui/form";
 import { DndContext, DragOverlay, UniqueIdentifier } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
 import { setUserOrder } from "../../_actions/user-order";
 import { UserTableItem } from "./user-table-item";
+import { UserTableItemDragOverlay } from "./user-table-item-drag-overlay";
 
 type UserTableProps = {
 	users: {
@@ -20,6 +32,16 @@ export const UserTable = (props: UserTableProps) => {
 	const [isEditMode, setIsEditMode] = useState(false);
 	const [users, setUsers] = useState(props.users);
 	const [activeItem, setActiveItem] = useState<UniqueIdentifier | null>(null);
+
+	const form = useForm<z.infer<typeof CreateTimecardInput>>({
+		resolver: zodResolver(CreateTimecardInput),
+		mode: "onSubmit",
+	});
+
+	const onSubmit = async (data: z.infer<typeof CreateTimecardInput>) => {
+		console.log("submit");
+		console.log(data);
+	};
 
 	const activeUser = users.find((_) => _.id === activeItem);
 
@@ -44,14 +66,55 @@ export const UserTable = (props: UserTableProps) => {
 				}}
 			>
 				<SortableContext items={users}>
-					<div className="grid grid-cols-6 gap-2">
-						{users.map((user) => (
-							<UserTableItem key={user.id} {...user} />
-						))}
-					</div>
+					<Form {...form}>
+						<form onSubmit={form.handleSubmit(onSubmit)}>
+							<FormField
+								name="userId"
+								render={({ field }) => {
+									return (
+										<FormItem>
+											<FormControl>
+												<div className="grid grid-cols-6 gap-2">
+													{users.map((user) => (
+														<UserTableItem
+															key={user.id}
+															field={field}
+															{...user}
+														/>
+													))}
+												</div>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									);
+								}}
+							/>
+							<div>
+								<FormField
+									name="type"
+									render={({ field }) => {
+										return (
+											<FormItem>
+												<FormControl>
+													<select {...form.register("type")}>
+														<option value="attend">出勤</option>
+														<option value="absent">欠席</option>
+													</select>
+												</FormControl>
+												<FormMessage></FormMessage>
+											</FormItem>
+										);
+									}}
+								/>
+							</div>
+							<Button type="submit">打刻</Button>
+						</form>
+					</Form>
 				</SortableContext>
 				<DragOverlay>
-					{activeItem && activeUser && <UserTableItem {...activeUser} />}
+					{activeItem && activeUser && (
+						<UserTableItemDragOverlay {...activeUser} />
+					)}
 				</DragOverlay>
 			</DndContext>
 		</div>

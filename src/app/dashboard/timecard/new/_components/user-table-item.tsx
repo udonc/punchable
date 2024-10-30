@@ -1,13 +1,17 @@
 "use client";
 
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
+import { ComponentProps } from "react";
 
 type UserTableItemProps = {
 	id: string;
 	name: string;
 	slug: string;
+	field?: ComponentProps<"input">;
 };
 
 export const UserTableItem = (props: UserTableItemProps) => {
@@ -25,14 +29,19 @@ export const UserTableItem = (props: UserTableItemProps) => {
 		transition,
 	};
 	return (
-		<label
+		<Label
 			data-dragging={isDragging}
 			ref={setNodeRef}
 			style={style}
 			className="data-[dragging=true]:opacity-0 bg-background p-2 border select-none flex items-center gap-1 rounded-md group has-[:checked]:bg-primary has-[:checked]:text-primary-foreground"
 			{...attributes}
 		>
-			<input type="radio" name="user" className="hidden" />
+			<Input
+				type="radio"
+				{...props.field}
+				value={props.id}
+				className="hidden"
+			/>
 			<div
 				className="hover:bg-muted p-1 rounded group-hover:visible invisible"
 				{...listeners}
@@ -42,6 +51,6 @@ export const UserTableItem = (props: UserTableItemProps) => {
 			<div className="text-nowrap text-ellipsis overflow-hidden">
 				{props.name}
 			</div>
-		</label>
+		</Label>
 	);
 };
