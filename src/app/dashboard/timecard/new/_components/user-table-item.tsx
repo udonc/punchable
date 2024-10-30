@@ -32,7 +32,7 @@ export const UserTableItem = (props: UserTableItemProps) => {
 			className="data-[dragging=true]:opacity-0 bg-background p-2 border select-none flex items-center gap-1 rounded-md group has-[:checked]:bg-primary has-[:checked]:text-primary-foreground"
 			{...attributes}
 		>
-			<input type="radio" name="_" className="hidden" />
+			<input type="radio" name="user" className="hidden" />
 			<div
 				className="hover:bg-muted p-1 rounded group-hover:visible invisible"
 				{...listeners}
