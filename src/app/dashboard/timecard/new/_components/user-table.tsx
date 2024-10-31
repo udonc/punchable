@@ -94,43 +94,41 @@ export const UserTable = (props: UserTableProps) => {
 							)}
 						</DragOverlay>
 					</DndContext>
-					<div>
-						<FormField
-							name="type"
-							render={({ field }) => {
-								return (
-									<FormItem>
-										<FormControl>
-											<div className="grid grid-cols-3 overflow-hidden rounded-md border">
-												<TimecardTypeRadio
-													{...field}
-													value="attend"
-													className="has-[:checked]:bg-green-500 has-[:checked]:text-white border-r"
-												>
-													出勤
-												</TimecardTypeRadio>
-												<TimecardTypeRadio
-													{...field}
-													value="absent"
-													className="has-[:checked]:bg-red-500 has-[:checked]:text-white border-r"
-												>
-													欠勤
-												</TimecardTypeRadio>
-												<TimecardTypeRadio
-													{...field}
-													value="other"
-													className="has-[:checked]:bg-yellow-500 has-[:checked]:text-white"
-												>
-													その他
-												</TimecardTypeRadio>
-											</div>
-										</FormControl>
-										<FormMessage></FormMessage>
-									</FormItem>
-								);
-							}}
-						/>
-					</div>
+					<FormField
+						name="type"
+						render={({ field }) => {
+							return (
+								<FormItem>
+									<FormControl>
+										<div className="grid grid-cols-3 overflow-hidden rounded-md border">
+											<TimecardTypeRadio
+												{...field}
+												value="attend"
+												className="has-[:checked]:bg-green-500 has-[:checked]:text-white border-r"
+											>
+												出勤
+											</TimecardTypeRadio>
+											<TimecardTypeRadio
+												{...field}
+												value="absent"
+												className="has-[:checked]:bg-red-500 has-[:checked]:text-white border-r"
+											>
+												欠勤
+											</TimecardTypeRadio>
+											<TimecardTypeRadio
+												{...field}
+												value="other"
+												className="has-[:checked]:bg-yellow-500 has-[:checked]:text-white"
+											>
+												その他
+											</TimecardTypeRadio>
+										</div>
+									</FormControl>
+									<FormMessage></FormMessage>
+								</FormItem>
+							);
+						}}
+					/>
 					<Button type="submit">打刻</Button>
 				</form>
 			</Form>
