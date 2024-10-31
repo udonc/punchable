@@ -21,9 +21,9 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { setUserOrder } from "../../_actions/user-order";
+import { CreateTimecardUserListItemDragOverlay } from "./create-timecard-form-user-list-item-drag-overlay";
 import { CreateTimecardFormUserListItem } from "./create-timecard-user-list-item";
 import { TimecardTypeRadio } from "./timecard-type-radio";
-import { UserTableItemDragOverlay } from "./user-table-item-drag-overlay";
 
 type User = {
 	id: string;
@@ -125,9 +125,9 @@ export const CreateTimecardForm = (props: CreateTimecardFormProps) => {
 						</SortableContext>
 						<DragOverlay>
 							{activeItem && activeUser && (
-								<UserTableItemDragOverlay>
+								<CreateTimecardUserListItemDragOverlay>
 									{activeUser.name}
-								</UserTableItemDragOverlay>
+								</CreateTimecardUserListItemDragOverlay>
 							)}
 						</DragOverlay>
 					</DndContext>

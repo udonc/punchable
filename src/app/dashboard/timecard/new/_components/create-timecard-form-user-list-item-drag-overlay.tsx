@@ -3,13 +3,13 @@
 import { GripVertical } from "lucide-react";
 import { ReactNode } from "react";
 
-type UserTableItemDragOverlayProps = {
+type CreateTimecardUserListItemDragOverlayProps = {
 	children: ReactNode;
 };
 
-export const UserTableItemDragOverlay = ({
+export const CreateTimecardUserListItemDragOverlay = ({
 	children,
-}: UserTableItemDragOverlayProps) => {
+}: CreateTimecardUserListItemDragOverlayProps) => {
 	return (
 		<div className="bg-background p-2 border select-none rounded-md has-[:checked]:bg-primary has-[:checked]:text-primary-foreground group space-y-0">
 			<div className="flex items-center gap-1" tabIndex={-1}>
