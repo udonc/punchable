@@ -9,6 +9,7 @@ import {
 	FormItem,
 	FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { DndContext, DragOverlay, UniqueIdentifier } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -123,6 +124,23 @@ export const UserTable = (props: UserTableProps) => {
 												その他
 											</TimecardTypeRadio>
 										</div>
+									</FormControl>
+									<FormMessage></FormMessage>
+								</FormItem>
+							);
+						}}
+					/>
+					<FormField
+						name="note"
+						render={({ field }) => {
+							return (
+								<FormItem>
+									<FormControl>
+										<Input
+											{...field}
+											className="w-full p-2 border rounded-md"
+											placeholder="備考"
+										/>
 									</FormControl>
 									<FormMessage></FormMessage>
 								</FormItem>
