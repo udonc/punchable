@@ -5,12 +5,13 @@ import { Button } from "@/components/ui/button";
 import {
 	Form,
 	FormControl,
-	FormDescription,
 	FormField,
 	FormItem,
+	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { RadioGroup } from "@/components/ui/radio-group";
 import { DndContext, DragOverlay, UniqueIdentifier } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -40,6 +41,11 @@ export const UserTable = (props: UserTableProps) => {
 	const form = useForm<z.infer<typeof CreateTimecardInput>>({
 		resolver: zodResolver(CreateTimecardInput),
 		mode: "onChange",
+		defaultValues: {
+			userId: "",
+			type: "attend",
+			note: "",
+		},
 	});
 
 	const onSubmit = async (data: z.infer<typeof CreateTimecardInput>) => {
@@ -78,17 +84,32 @@ export const UserTable = (props: UserTableProps) => {
 								render={({ field }) => {
 									return (
 										<FormItem>
-											<FormDescription>ユーザー</FormDescription>
+											<FormLabel>ユーザー</FormLabel>
 											<FormControl>
-												<div className="grid grid-cols-6 gap-2 rounded-md ring-offset-background has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-ring">
+												<RadioGroup
+													defaultValue={field.value}
+													onValueChange={field.onChange}
+													onBlur={field.onBlur}
+													className="grid grid-cols-6 gap-2 rounded-md ring-offset-background has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-ring"
+												>
 													{users.map((user) => (
 														<UserTableItem
 															key={user.id}
-															field={field}
-															{...user}
-														/>
+															user={user}
+															{...field}
+															value={user.id}
+														>
+															{user.name}
+														</UserTableItem>
 													))}
-												</div>
+													<UserTableItem
+														user={{ id: "", name: "未選択", slug: "" }}
+														{...field}
+														value=""
+													>
+														未選択
+													</UserTableItem>
+												</RadioGroup>
 											</FormControl>
 											<FormMessage />
 										</FormItem>
@@ -98,7 +119,9 @@ export const UserTable = (props: UserTableProps) => {
 						</SortableContext>
 						<DragOverlay>
 							{activeItem && activeUser && (
-								<UserTableItemDragOverlay {...activeUser} />
+								<UserTableItemDragOverlay>
+									{activeUser.name}
+								</UserTableItemDragOverlay>
 							)}
 						</DragOverlay>
 					</DndContext>
@@ -108,9 +131,14 @@ export const UserTable = (props: UserTableProps) => {
 						render={({ field }) => {
 							return (
 								<FormItem>
-									<FormDescription>出欠ステータス</FormDescription>
+									<FormLabel>出欠ステータス</FormLabel>
 									<FormControl>
-										<div className="grid grid-cols-3 overflow-hidden rounded-md border ring-offset-background has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-ring">
+										<RadioGroup
+											defaultValue={field.value}
+											onValueChange={field.onChange}
+											onBlur={field.onBlur}
+											className="grid gap-0 grid-cols-3 overflow-hidden rounded-md border ring-offset-background has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-ring"
+										>
 											<TimecardTypeRadio
 												{...field}
 												value="attend"
@@ -132,7 +160,7 @@ export const UserTable = (props: UserTableProps) => {
 											>
 												その他
 											</TimecardTypeRadio>
-										</div>
+										</RadioGroup>
 									</FormControl>
 									<FormMessage></FormMessage>
 								</FormItem>
@@ -145,13 +173,9 @@ export const UserTable = (props: UserTableProps) => {
 						render={({ field }) => {
 							return (
 								<FormItem>
-									<FormDescription>備考</FormDescription>
+									<FormLabel>備考</FormLabel>
 									<FormControl>
-										<Input
-											{...field}
-											className="w-full p-2 border rounded-md"
-											placeholder="備考を入力..."
-										/>
+										<Input placeholder="備考を入力..." {...field} />
 									</FormControl>
 									<FormMessage></FormMessage>
 								</FormItem>
@@ -160,6 +184,9 @@ export const UserTable = (props: UserTableProps) => {
 					/>
 					<Button type="submit" disabled={!form.formState.isValid}>
 						打刻する
+					</Button>
+					<Button type="reset" disabled={!form.formState.isValid}>
+						リセット
 					</Button>
 				</form>
 			</Form>

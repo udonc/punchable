@@ -37,7 +37,7 @@ export const AddRevieweeInput = z.object({
 });
 
 export const CreateTimecardInput = z.object({
-	userId: z.string(),
+	userId: z.string().cuid2(),
 	type: z.enum(["attend", "absent", "other"]),
 	note: z.string().trim().optional(),
 });

@@ -1,20 +1,28 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
+import { FormControl, FormItem } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
+import { RadioGroupItem } from "@/components/ui/radio-group";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
-import { ComponentProps } from "react";
+import { ReactNode } from "react";
 
 type UserTableItemProps = {
-	id: string;
-	name: string;
-	slug: string;
-	field?: ComponentProps<"input">;
+	user: {
+		id: string;
+		name: string;
+		slug: string;
+	};
+	value: string;
+	children: ReactNode;
 };
 
-export const UserTableItem = (props: UserTableItemProps) => {
+export const UserTableItem = ({
+	user,
+	value,
+	children,
+}: UserTableItemProps) => {
 	const {
 		attributes,
 		listeners,
@@ -22,36 +30,38 @@ export const UserTableItem = (props: UserTableItemProps) => {
 		transform,
 		transition,
 		isDragging,
-	} = useSortable({ id: props.id });
+	} = useSortable({ id: user.id });
 
 	const style = {
 		transform: CSS.Transform.toString(transform),
 		transition,
 	};
+
 	return (
-		<Label
-			data-dragging={isDragging}
-			ref={setNodeRef}
-			style={style}
-			className="data-[dragging=true]:opacity-0 bg-background p-2 border select-none flex items-center gap-1 rounded-md group has-[:checked]:bg-primary has-[:checked]:text-primary-foreground"
-			{...attributes}
-			tabIndex={-1}
-		>
-			<Input
-				type="radio"
-				className="sr-only"
-				{...props.field}
-				value={props.id}
-			/>
-			<div
-				className="hover:bg-muted p-1 rounded group-hover:visible invisible"
-				{...listeners}
+		<FormItem tabIndex={-1}>
+			<Label
+				data-dragging={isDragging}
+				ref={setNodeRef}
+				style={style}
+				{...attributes}
+				className="flex items-center gap-1 data-[dragging=true]:opacity-0 bg-background p-2 border select-none rounded-md has-[:checked]:bg-primary has-[:checked]:text-primary-foreground group space-y-0"
 			>
-				<GripVertical size={14} className="cursor-move text-muted-foreground" />
-			</div>
-			<div className="text-nowrap text-ellipsis overflow-hidden">
-				{props.name}
-			</div>
-		</Label>
+				<FormControl className="sr-only">
+					<RadioGroupItem value={value} />
+				</FormControl>
+				<div
+					className="hover:bg-muted p-1 rounded group-hover:visible invisible"
+					{...listeners}
+				>
+					<GripVertical
+						size={14}
+						className="cursor-move text-muted-foreground"
+					/>
+				</div>
+				<div className="text-nowrap text-ellipsis overflow-hidden">
+					{children}
+				</div>
+			</Label>
+		</FormItem>
 	);
 };
