@@ -45,6 +45,7 @@ export const UserTable = (props: UserTableProps) => {
 	const onSubmit = async (data: z.infer<typeof CreateTimecardInput>) => {
 		console.log("submit");
 		console.log(data);
+		form.reset();
 	};
 
 	const activeUser = users.find((_) => _.id === activeItem);

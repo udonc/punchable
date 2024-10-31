@@ -39,9 +39,9 @@ export const UserTableItem = (props: UserTableItemProps) => {
 		>
 			<Input
 				type="radio"
+				className="sr-only"
 				{...props.field}
 				value={props.id}
-				className="sr-only"
 			/>
 			<div
 				className="hover:bg-muted p-1 rounded group-hover:visible invisible"
