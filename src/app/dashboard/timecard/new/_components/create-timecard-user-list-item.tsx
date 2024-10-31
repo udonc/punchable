@@ -44,22 +44,22 @@ export const CreateTimecardFormUserListItem = ({
 				ref={setNodeRef}
 				style={style}
 				{...attributes}
-				className="flex items-center gap-1 data-[dragging=true]:opacity-0 bg-background p-2 border select-none rounded-md has-[:checked]:bg-primary has-[:checked]:text-primary-foreground group space-y-0"
+				className="relative px-4 py-3 flex items-center gap-1 data-[dragging=true]:opacity-0 bg-background border select-none rounded-md has-[:checked]:bg-primary has-[:checked]:text-primary-foreground group space-y-0"
 			>
 				<FormControl className="sr-only">
 					<RadioGroupItem value={value} />
 				</FormControl>
+				<div className="text-nowrap text-ellipsis overflow-hidden">
+					{children}
+				</div>
 				<div
-					className="hover:bg-muted p-1 rounded group-hover:visible invisible"
+					className="absolute left-0 -translate-x-1/2 hover:bg-muted p-1 rounded bg-background border group-hover:visible invisible"
 					{...listeners}
 				>
 					<GripVertical
-						size={14}
+						size={12}
 						className="cursor-move text-muted-foreground"
 					/>
-				</div>
-				<div className="text-nowrap text-ellipsis overflow-hidden">
-					{children}
 				</div>
 			</Label>
 		</FormItem>

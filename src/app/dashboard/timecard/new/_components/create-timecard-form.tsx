@@ -125,7 +125,9 @@ export const CreateTimecardForm = (props: CreateTimecardFormProps) => {
 						</SortableContext>
 						<DragOverlay>
 							{activeItem && activeUser && (
-								<CreateTimecardUserListItemDragOverlay>
+								<CreateTimecardUserListItemDragOverlay
+									checked={form.getValues("userId") === activeUser.id}
+								>
 									{activeUser.name}
 								</CreateTimecardUserListItemDragOverlay>
 							)}
