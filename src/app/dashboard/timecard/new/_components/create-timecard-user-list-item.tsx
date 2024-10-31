@@ -7,6 +7,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
 import { ReactNode } from "react";
+import { AttendanceIndicator } from "./attendance-indicator";
 
 type CreateTimecardFormUserListItem = {
 	user: {
@@ -49,8 +50,11 @@ export const CreateTimecardFormUserListItem = ({
 				<FormControl className="sr-only">
 					<RadioGroupItem value={value} />
 				</FormControl>
-				<div className="text-nowrap text-ellipsis overflow-hidden">
-					{children}
+				<div className="flex justify-between items-center w-full">
+					<div className="text-nowrap text-ellipsis overflow-hidden">
+						{children}
+					</div>
+					<AttendanceIndicator type="attend" />
 				</div>
 				<div
 					className="absolute left-0 -translate-x-1/2 hover:bg-muted p-1 rounded bg-background border group-hover:visible invisible"
