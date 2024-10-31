@@ -31,11 +31,11 @@ type User = {
 	slug: string;
 };
 
-type UserTableProps = {
+type CreateTimecardFormProps = {
 	users: User[];
 };
 
-export const UserTable = (props: UserTableProps) => {
+export const CreateTimecardForm = (props: CreateTimecardFormProps) => {
 	const [users, setUsers] = useState(props.users);
 	const [activeItem, setActiveItem] = useState<UniqueIdentifier | null>(null);
 	const [pending, startTransition] = useTransition();

@@ -1,5 +1,5 @@
 import { db } from "@/server/db";
-import { UserTable } from "./_components/user-table";
+import { CreateTimecardForm } from "./_components/create-timecard-form";
 
 const Page = async () => {
 	// ユーザー一覧取得
@@ -34,8 +34,10 @@ const Page = async () => {
 					タイムカードを新規に打刻します。
 				</p>
 			</hgroup>
-			<main className="container">
-				<UserTable users={sorted} />
+			<main className="p-4">
+				<div className="mx-auto max-w-4xl">
+					<CreateTimecardForm users={sorted} />
+				</div>
 			</main>
 		</div>
 	);
