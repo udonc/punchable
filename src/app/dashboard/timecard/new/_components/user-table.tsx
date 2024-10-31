@@ -73,6 +73,7 @@ export const UserTable = (props: UserTableProps) => {
 						<SortableContext items={users}>
 							<FormField
 								name="userId"
+								control={form.control}
 								render={({ field }) => {
 									return (
 										<FormItem>
@@ -102,6 +103,7 @@ export const UserTable = (props: UserTableProps) => {
 					</DndContext>
 					<FormField
 						name="type"
+						control={form.control}
 						render={({ field }) => {
 							return (
 								<FormItem>
@@ -138,6 +140,7 @@ export const UserTable = (props: UserTableProps) => {
 					/>
 					<FormField
 						name="note"
+						control={form.control}
 						render={({ field }) => {
 							return (
 								<FormItem>
