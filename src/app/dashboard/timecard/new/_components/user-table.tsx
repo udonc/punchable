@@ -31,7 +31,6 @@ type UserTableProps = {
 };
 
 export const UserTable = (props: UserTableProps) => {
-	const [isEditMode, setIsEditMode] = useState(false);
 	const [users, setUsers] = useState(props.users);
 	const [activeItem, setActiveItem] = useState<UniqueIdentifier | null>(null);
 
@@ -49,10 +48,6 @@ export const UserTable = (props: UserTableProps) => {
 
 	return (
 		<div>
-			<div>
-				<Button onClick={() => setIsEditMode((_) => !_)}>編集</Button>
-			</div>
-
 			<DndContext
 				onDragStart={(e) => setActiveItem(e.active.id)}
 				onDragEnd={(e) => {
