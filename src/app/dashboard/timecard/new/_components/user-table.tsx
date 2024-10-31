@@ -48,23 +48,23 @@ export const UserTable = (props: UserTableProps) => {
 
 	return (
 		<div>
-			<DndContext
-				onDragStart={(e) => setActiveItem(e.active.id)}
-				onDragEnd={(e) => {
-					if (e.active.id === e.over?.id) return;
-					const oldIndex = users.findIndex((_) => _.id === e.active.id);
-					const newIndex = users.findIndex((_) => _.id === e.over?.id);
-					const newUsers = arrayMove(users, oldIndex, newIndex);
-					setUsers(newUsers);
-					setActiveItem(null);
-					setUserOrder(newUsers.map((_) => _.id)).then(() =>
-						toast.success("並び替えが完了しました"),
-					);
-				}}
-			>
-				<SortableContext items={users}>
-					<Form {...form}>
-						<form onSubmit={form.handleSubmit(onSubmit)}>
+			<Form {...form}>
+				<form onSubmit={form.handleSubmit(onSubmit)}>
+					<DndContext
+						onDragStart={(e) => setActiveItem(e.active.id)}
+						onDragEnd={(e) => {
+							if (e.active.id === e.over?.id) return;
+							const oldIndex = users.findIndex((_) => _.id === e.active.id);
+							const newIndex = users.findIndex((_) => _.id === e.over?.id);
+							const newUsers = arrayMove(users, oldIndex, newIndex);
+							setUsers(newUsers);
+							setActiveItem(null);
+							setUserOrder(newUsers.map((_) => _.id)).then(() =>
+								toast.success("並び替えが完了しました"),
+							);
+						}}
+					>
+						<SortableContext items={users}>
 							<FormField
 								name="userId"
 								render={({ field }) => {
@@ -86,34 +86,34 @@ export const UserTable = (props: UserTableProps) => {
 									);
 								}}
 							/>
-							<div>
-								<FormField
-									name="type"
-									render={({ field }) => {
-										return (
-											<FormItem>
-												<FormControl>
-													<select {...form.register("type")}>
-														<option value="attend">出勤</option>
-														<option value="absent">欠席</option>
-													</select>
-												</FormControl>
-												<FormMessage></FormMessage>
-											</FormItem>
-										);
-									}}
-								/>
-							</div>
-							<Button type="submit">打刻</Button>
-						</form>
-					</Form>
-				</SortableContext>
-				<DragOverlay>
-					{activeItem && activeUser && (
-						<UserTableItemDragOverlay {...activeUser} />
-					)}
-				</DragOverlay>
-			</DndContext>
+						</SortableContext>
+						<DragOverlay>
+							{activeItem && activeUser && (
+								<UserTableItemDragOverlay {...activeUser} />
+							)}
+						</DragOverlay>
+					</DndContext>
+					<div>
+						<FormField
+							name="type"
+							render={({ field }) => {
+								return (
+									<FormItem>
+										<FormControl>
+											<select {...form.register("type")}>
+												<option value="attend">出勤</option>
+												<option value="absent">欠席</option>
+											</select>
+										</FormControl>
+										<FormMessage></FormMessage>
+									</FormItem>
+								);
+							}}
+						/>
+					</div>
+					<Button type="submit">打刻</Button>
+				</form>
+			</Form>
 		</div>
 	);
 };
