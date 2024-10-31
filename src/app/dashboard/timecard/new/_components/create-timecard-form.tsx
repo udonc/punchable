@@ -21,8 +21,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { setUserOrder } from "../../_actions/user-order";
+import { CreateTimecardFormUserListItem } from "./create-timecard-user-list-item";
 import { TimecardTypeRadio } from "./timecard-type-radio";
-import { UserTableItem } from "./user-table-item";
 import { UserTableItemDragOverlay } from "./user-table-item-drag-overlay";
 
 type User = {
@@ -105,14 +105,14 @@ export const CreateTimecardForm = (props: CreateTimecardFormProps) => {
 														className="grid grid-cols-6 gap-2 rounded-md ring-offset-background has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-ring"
 													>
 														{users.map((user) => (
-															<UserTableItem
+															<CreateTimecardFormUserListItem
 																key={user.id}
 																user={user}
 																{...field}
 																value={user.id}
 															>
 																{user.name}
-															</UserTableItem>
+															</CreateTimecardFormUserListItem>
 														))}
 													</RadioGroup>
 												</div>

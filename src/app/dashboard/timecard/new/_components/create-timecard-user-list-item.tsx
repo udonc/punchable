@@ -8,7 +8,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
 import { ReactNode } from "react";
 
-type UserTableItemProps = {
+type CreateTimecardFormUserListItem = {
 	user: {
 		id: string;
 		name: string;
@@ -18,11 +18,11 @@ type UserTableItemProps = {
 	children: ReactNode;
 };
 
-export const UserTableItem = ({
+export const CreateTimecardFormUserListItem = ({
 	user,
 	value,
 	children,
-}: UserTableItemProps) => {
+}: CreateTimecardFormUserListItem) => {
 	const {
 		attributes,
 		listeners,
