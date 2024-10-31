@@ -37,9 +37,6 @@ const Page = async () => {
 			<main className="container">
 				<UserTable users={sorted} />
 			</main>
-			<code className="font-mono text-sm">
-				<pre>{JSON.stringify(sorted, null, 4)}</pre>
-			</code>
 		</div>
 	);
 };
