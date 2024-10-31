@@ -15,6 +15,13 @@ const Page = async () => {
 			name: true,
 			slug: true,
 			UserOrder: true,
+			Attendance: {
+				where: {
+					date: {
+						gte: new Date(),
+					},
+				},
+			},
 		},
 	});
 
@@ -39,6 +46,9 @@ const Page = async () => {
 					<CreateTimecardForm users={sorted} />
 				</div>
 			</main>
+			<code>
+				<pre>{JSON.stringify(users, null, 2)}</pre>
+			</code>
 		</div>
 	);
 };
