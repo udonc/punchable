@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { setUserOrder } from "../../_actions/user-order";
+import { TimecardTypeRadio } from "./timecard-type-radio";
 import { UserTableItem } from "./user-table-item";
 import { UserTableItemDragOverlay } from "./user-table-item-drag-overlay";
 
@@ -100,10 +101,29 @@ export const UserTable = (props: UserTableProps) => {
 								return (
 									<FormItem>
 										<FormControl>
-											<select {...form.register("type")}>
-												<option value="attend">出勤</option>
-												<option value="absent">欠席</option>
-											</select>
+											<div className="grid grid-cols-3 overflow-hidden rounded-md border">
+												<TimecardTypeRadio
+													{...field}
+													value="attend"
+													className="has-[:checked]:bg-green-500 has-[:checked]:text-white border-r"
+												>
+													出勤
+												</TimecardTypeRadio>
+												<TimecardTypeRadio
+													{...field}
+													value="absent"
+													className="has-[:checked]:bg-red-500 has-[:checked]:text-white border-r"
+												>
+													欠勤
+												</TimecardTypeRadio>
+												<TimecardTypeRadio
+													{...field}
+													value="other"
+													className="has-[:checked]:bg-yellow-500 has-[:checked]:text-white"
+												>
+													その他
+												</TimecardTypeRadio>
+											</div>
 										</FormControl>
 										<FormMessage></FormMessage>
 									</FormItem>
