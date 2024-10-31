@@ -38,7 +38,7 @@ export const UserTable = (props: UserTableProps) => {
 
 	const form = useForm<z.infer<typeof CreateTimecardInput>>({
 		resolver: zodResolver(CreateTimecardInput),
-		mode: "onSubmit",
+		mode: "onChange",
 	});
 
 	const onSubmit = async (data: z.infer<typeof CreateTimecardInput>) => {
@@ -52,7 +52,7 @@ export const UserTable = (props: UserTableProps) => {
 		<div>
 			<Form {...form}>
 				<form
-					className="flex flex-col gap-4"
+					className="flex flex-col gap-8"
 					onSubmit={form.handleSubmit(onSubmit)}
 				>
 					<DndContext
@@ -150,7 +150,9 @@ export const UserTable = (props: UserTableProps) => {
 							);
 						}}
 					/>
-					<Button type="submit">打刻</Button>
+					<Button type="submit" disabled={!form.formState.isValid}>
+						打刻する
+					</Button>
 				</form>
 			</Form>
 		</div>
