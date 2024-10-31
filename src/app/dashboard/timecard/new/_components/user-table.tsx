@@ -20,12 +20,14 @@ import { setUserOrder } from "../../_actions/user-order";
 import { UserTableItem } from "./user-table-item";
 import { UserTableItemDragOverlay } from "./user-table-item-drag-overlay";
 
+type User = {
+	id: string;
+	name: string;
+	slug: string;
+};
+
 type UserTableProps = {
-	users: {
-		id: string;
-		name: string;
-		slug: string;
-	}[];
+	users: User[];
 };
 
 export const UserTable = (props: UserTableProps) => {
