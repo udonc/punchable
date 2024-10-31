@@ -35,12 +35,13 @@ export const UserTableItem = (props: UserTableItemProps) => {
 			style={style}
 			className="data-[dragging=true]:opacity-0 bg-background p-2 border select-none flex items-center gap-1 rounded-md group has-[:checked]:bg-primary has-[:checked]:text-primary-foreground"
 			{...attributes}
+			tabIndex={-1}
 		>
 			<Input
 				type="radio"
 				{...props.field}
 				value={props.id}
-				className="hidden"
+				className="sr-only"
 			/>
 			<div
 				className="hover:bg-muted p-1 rounded group-hover:visible invisible"

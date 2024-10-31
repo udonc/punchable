@@ -19,7 +19,7 @@ export const TimecardTypeRadio = ({
 				className,
 			)}
 		>
-			<Input type="radio" value="attend" className="hidden" {...props} />
+			<Input type="radio" className="sr-only" {...props} />
 			{children}
 		</Label>
 	);

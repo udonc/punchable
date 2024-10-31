@@ -73,7 +73,7 @@ export const UserTable = (props: UserTableProps) => {
 									return (
 										<FormItem>
 											<FormControl>
-												<div className="grid grid-cols-6 gap-2">
+												<div className="grid grid-cols-6 gap-2 has-[:focus]:ring-2 has-[:focus]:ring-primary">
 													{users.map((user) => (
 														<UserTableItem
 															key={user.id}
@@ -101,7 +101,7 @@ export const UserTable = (props: UserTableProps) => {
 							return (
 								<FormItem>
 									<FormControl>
-										<div className="grid grid-cols-3 overflow-hidden rounded-md border">
+										<div className="grid grid-cols-3 overflow-hidden rounded-md border has-[:focus]:ring-2 has-[:focus]:ring-primary">
 											<TimecardTypeRadio
 												{...field}
 												value="attend"
