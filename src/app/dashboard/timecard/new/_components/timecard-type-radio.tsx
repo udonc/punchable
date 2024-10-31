@@ -15,7 +15,7 @@ export const TimecardTypeRadio = ({
 	return (
 		<Label
 			className={cn(
-				"p-4 bg-background has-[:checked]:bg-primary has-[:checked]:text-primary-foreground cursor-pointer",
+				"px-4 py-3 bg-background has-[:checked]:bg-primary has-[:checked]:text-primary-foreground cursor-pointer",
 				className,
 			)}
 		>
