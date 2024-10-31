@@ -51,7 +51,10 @@ export const UserTable = (props: UserTableProps) => {
 	return (
 		<div>
 			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)}>
+				<form
+					className="flex flex-col gap-4"
+					onSubmit={form.handleSubmit(onSubmit)}
+				>
 					<DndContext
 						onDragStart={(e) => setActiveItem(e.active.id)}
 						onDragEnd={(e) => {
@@ -73,7 +76,7 @@ export const UserTable = (props: UserTableProps) => {
 									return (
 										<FormItem>
 											<FormControl>
-												<div className="grid grid-cols-6 gap-2 has-[:focus]:ring-2 has-[:focus]:ring-primary">
+												<div className="grid grid-cols-6 gap-2 rounded-md ring-offset-background has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-ring">
 													{users.map((user) => (
 														<UserTableItem
 															key={user.id}
@@ -101,7 +104,7 @@ export const UserTable = (props: UserTableProps) => {
 							return (
 								<FormItem>
 									<FormControl>
-										<div className="grid grid-cols-3 overflow-hidden rounded-md border has-[:focus]:ring-2 has-[:focus]:ring-primary">
+										<div className="grid grid-cols-3 overflow-hidden rounded-md border ring-offset-background has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-ring">
 											<TimecardTypeRadio
 												{...field}
 												value="attend"
