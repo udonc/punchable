@@ -15,7 +15,8 @@ import { RadioGroup } from "@/components/ui/radio-group";
 import { DndContext, DragOverlay, UniqueIdentifier } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { LoaderCircle } from "lucide-react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -37,6 +38,7 @@ type UserTableProps = {
 export const UserTable = (props: UserTableProps) => {
 	const [users, setUsers] = useState(props.users);
 	const [activeItem, setActiveItem] = useState<UniqueIdentifier | null>(null);
+	const [pending, startTransition] = useTransition();
 
 	const form = useForm<z.infer<typeof CreateTimecardInput>>({
 		resolver: zodResolver(CreateTimecardInput),
@@ -49,9 +51,13 @@ export const UserTable = (props: UserTableProps) => {
 	});
 
 	const onSubmit = async (data: z.infer<typeof CreateTimecardInput>) => {
-		console.log("submit");
-		console.log(data);
-		form.reset();
+		startTransition(async () => {
+			// wait 2000ms
+			await new Promise((resolve) => setTimeout(resolve, 2000));
+			toast.success("打刻しました");
+			console.table(data);
+			form.resetField("note");
+		});
 	};
 
 	const activeUser = users.find((_) => _.id === activeItem);
@@ -81,35 +87,35 @@ export const UserTable = (props: UserTableProps) => {
 							<FormField
 								name="userId"
 								control={form.control}
+								disabled={pending}
 								render={({ field }) => {
 									return (
 										<FormItem>
 											<FormLabel>ユーザー</FormLabel>
 											<FormControl>
-												<RadioGroup
-													defaultValue={field.value}
-													onValueChange={field.onChange}
-													onBlur={field.onBlur}
-													className="grid grid-cols-6 gap-2 rounded-md ring-offset-background has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-ring"
+												<div
+													data-disabled={field.disabled}
+													className="data-[disabled=true]:opacity-50 data-[disabled=true]:pointer-events-none"
 												>
-													{users.map((user) => (
-														<UserTableItem
-															key={user.id}
-															user={user}
-															{...field}
-															value={user.id}
-														>
-															{user.name}
-														</UserTableItem>
-													))}
-													<UserTableItem
-														user={{ id: "", name: "未選択", slug: "" }}
-														{...field}
-														value=""
+													<RadioGroup
+														defaultValue={field.value}
+														onValueChange={field.onChange}
+														onBlur={field.onBlur}
+														disabled={field.disabled}
+														className="grid grid-cols-6 gap-2 rounded-md ring-offset-background has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-ring"
 													>
-														未選択
-													</UserTableItem>
-												</RadioGroup>
+														{users.map((user) => (
+															<UserTableItem
+																key={user.id}
+																user={user}
+																{...field}
+																value={user.id}
+															>
+																{user.name}
+															</UserTableItem>
+														))}
+													</RadioGroup>
+												</div>
 											</FormControl>
 											<FormMessage />
 										</FormItem>
@@ -128,39 +134,46 @@ export const UserTable = (props: UserTableProps) => {
 					<FormField
 						name="type"
 						control={form.control}
+						disabled={pending}
 						render={({ field }) => {
 							return (
 								<FormItem>
 									<FormLabel>出欠ステータス</FormLabel>
 									<FormControl>
-										<RadioGroup
-											defaultValue={field.value}
-											onValueChange={field.onChange}
-											onBlur={field.onBlur}
-											className="grid gap-0 grid-cols-3 overflow-hidden rounded-md border ring-offset-background has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-ring"
+										<div
+											data-disabled={field.disabled}
+											className="data-[disabled=true]:opacity-50 data-[disabled=true]:pointer-events-none"
 										>
-											<TimecardTypeRadio
-												{...field}
-												value="attend"
-												className="has-[:checked]:bg-green-500 has-[:checked]:text-white border-r"
+											<RadioGroup
+												defaultValue={field.value}
+												onValueChange={field.onChange}
+												onBlur={field.onBlur}
+												disabled={field.disabled}
+												className="grid gap-0 grid-cols-3 overflow-hidden rounded-md border ring-offset-background has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-ring"
 											>
-												出勤
-											</TimecardTypeRadio>
-											<TimecardTypeRadio
-												{...field}
-												value="absent"
-												className="has-[:checked]:bg-red-500 has-[:checked]:text-white border-r"
-											>
-												欠勤
-											</TimecardTypeRadio>
-											<TimecardTypeRadio
-												{...field}
-												value="other"
-												className="has-[:checked]:bg-yellow-500 has-[:checked]:text-white"
-											>
-												その他
-											</TimecardTypeRadio>
-										</RadioGroup>
+												<TimecardTypeRadio
+													{...field}
+													value="attend"
+													className="has-[:checked]:bg-green-500 has-[:checked]:text-white border-r"
+												>
+													出勤
+												</TimecardTypeRadio>
+												<TimecardTypeRadio
+													{...field}
+													value="absent"
+													className="has-[:checked]:bg-red-500 has-[:checked]:text-white border-r"
+												>
+													欠勤
+												</TimecardTypeRadio>
+												<TimecardTypeRadio
+													{...field}
+													value="other"
+													className="has-[:checked]:bg-yellow-500 has-[:checked]:text-white"
+												>
+													その他
+												</TimecardTypeRadio>
+											</RadioGroup>
+										</div>
 									</FormControl>
 									<FormMessage></FormMessage>
 								</FormItem>
@@ -170,6 +183,7 @@ export const UserTable = (props: UserTableProps) => {
 					<FormField
 						name="note"
 						control={form.control}
+						disabled={pending}
 						render={({ field }) => {
 							return (
 								<FormItem>
@@ -182,11 +196,15 @@ export const UserTable = (props: UserTableProps) => {
 							);
 						}}
 					/>
-					<Button type="submit" disabled={!form.formState.isValid}>
-						打刻する
-					</Button>
-					<Button type="reset" disabled={!form.formState.isValid}>
-						リセット
+					<Button type="submit" disabled={!form.formState.isValid || pending}>
+						{pending ? (
+							<span className="flex gap-1 items-center">
+								送信中
+								<LoaderCircle className="h-4 w-4 animate-spin" />
+							</span>
+						) : (
+							<span>打刻する</span>
+						)}
 					</Button>
 				</form>
 			</Form>
