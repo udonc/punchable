@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
 	Form,
 	FormControl,
+	FormDescription,
 	FormField,
 	FormItem,
 	FormMessage,
@@ -75,6 +76,7 @@ export const UserTable = (props: UserTableProps) => {
 								render={({ field }) => {
 									return (
 										<FormItem>
+											<FormDescription>ユーザー</FormDescription>
 											<FormControl>
 												<div className="grid grid-cols-6 gap-2 rounded-md ring-offset-background has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-ring">
 													{users.map((user) => (
@@ -103,6 +105,7 @@ export const UserTable = (props: UserTableProps) => {
 						render={({ field }) => {
 							return (
 								<FormItem>
+									<FormDescription>出欠ステータス</FormDescription>
 									<FormControl>
 										<div className="grid grid-cols-3 overflow-hidden rounded-md border ring-offset-background has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-ring">
 											<TimecardTypeRadio
@@ -138,11 +141,12 @@ export const UserTable = (props: UserTableProps) => {
 						render={({ field }) => {
 							return (
 								<FormItem>
+									<FormDescription>備考</FormDescription>
 									<FormControl>
 										<Input
 											{...field}
 											className="w-full p-2 border rounded-md"
-											placeholder="備考"
+											placeholder="備考を入力..."
 										/>
 									</FormControl>
 									<FormMessage></FormMessage>
