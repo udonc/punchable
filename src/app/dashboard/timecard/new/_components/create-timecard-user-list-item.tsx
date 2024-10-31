@@ -54,7 +54,7 @@ export const CreateTimecardFormUserListItem = ({
 					<div className="text-nowrap text-ellipsis overflow-hidden">
 						{children}
 					</div>
-					<AttendanceIndicator type="attend" />
+					<AttendanceIndicator type="unset" />
 				</div>
 				<div
 					className="absolute left-0 -translate-x-1/2 hover:bg-muted p-1 rounded bg-background border group-hover:visible invisible"
